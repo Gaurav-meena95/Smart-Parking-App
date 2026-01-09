@@ -91,21 +91,14 @@ export function Login() {
         localStorage.setItem('refreshToken', data.refreshToken)
         localStorage.setItem('user', JSON.stringify(data.user))
         
-        switch (selectedRole) {
-          case 'user':
-            navigate('/home')
-            break
-          case 'driver':
-            navigate('/driver')
-            break
-          case 'manager':
-            navigate('/manager')
-            break
-          case 'admin':
-            navigate('/admin')
-            break
-          default:
-            navigate('/home')
+        if (data.user.role === 'admin') {
+          navigate('/admin')
+        } else if (data.user.role === 'manager') {
+          navigate('/manager')
+        } else if (data.user.role === 'driver') {
+          navigate('/driver')
+        } else {
+          navigate('/home')
         }
       } else {
         setError(data.message || 'Login failed')

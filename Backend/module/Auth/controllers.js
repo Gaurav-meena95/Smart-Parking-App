@@ -23,13 +23,17 @@ const signup = async (req, res) => {
             return res.status(400).json({ message: 'User is already exists' })
         }
         const hashedPassword = await bcrypt.hash(password, 10)
+        const userRole = role || 'user'
+        const approvalStatus = userRole === 'driver' ? 'pending' : null
+        
         const newUser = await prisma.user.create({
             data: {
                 name, 
                 email,
                 password: hashedPassword,
                 mobile: mobile || null,
-                role: role || 'user'
+                role: userRole,
+                approvalStatus: approvalStatus
             }
         });
         return res.status(201).json({

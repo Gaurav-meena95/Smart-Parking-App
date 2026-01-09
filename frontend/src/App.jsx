@@ -15,9 +15,10 @@ import { UserSettings } from './components/pages/user/Setting'
 import { ManageVehicles } from './components/pages/user/ManageVehicles'
 import { FAQ } from './components/pages/user/FAQ'
 import { HelpSupport } from './components/pages/user/HelpSupport'
+import { AdminDashboard } from './components/pages/admin/Dashboard'
 import { BottomNav } from './components/BottomNav'
 
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, showBottomNav = true }) {
     const token = localStorage.getItem('token')
     if (!token) {
         return <Navigate to="/login" replace />
@@ -25,7 +26,7 @@ function ProtectedRoute({ children }) {
     return (
         <>
             {children}
-            <BottomNav />
+            {showBottomNav && <BottomNav />}
         </>
     )
 }
@@ -50,6 +51,7 @@ export default function App() {
                     <Route path="/manage-vehicles" element={<ProtectedRoute><ManageVehicles /></ProtectedRoute>} />
                     <Route path="/faq" element={<ProtectedRoute><FAQ /></ProtectedRoute>} />
                     <Route path="/help-support" element={<ProtectedRoute><HelpSupport /></ProtectedRoute>} />
+                    <Route path="/admin" element={<ProtectedRoute showBottomNav={false}><AdminDashboard /></ProtectedRoute>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

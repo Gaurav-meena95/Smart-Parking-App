@@ -118,5 +118,32 @@ export const api = {
         async getById(parkingId) {
             return api.request(`/parking/details?parkingId=${parkingId}`)
         }
+    },
+
+    admin: {
+        async getDashboardStats() {
+            return api.request('/admin/dashboard')
+        },
+        async getAllUsers() {
+            return api.request('/admin/users')
+        },
+        async getAllParkings() {
+            return api.request('/admin/parkings')
+        },
+        async getPendingDriverApprovals() {
+            return api.request('/admin/pending-drivers')
+        },
+        async approveDriver(userId) {
+            return api.request('/admin/approve-driver', {
+                method: 'POST',
+                body: JSON.stringify({ userId })
+            })
+        },
+        async rejectDriver(userId) {
+            return api.request('/admin/reject-driver', {
+                method: 'POST',
+                body: JSON.stringify({ userId })
+            })
+        }
     }
 }

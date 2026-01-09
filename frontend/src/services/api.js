@@ -95,5 +95,28 @@ export const api = {
                 body: JSON.stringify(profileData)
             })
         }
+    },
+
+    parking: {
+        async start(parkingData) {
+            return api.request('/parking/start', {
+                method: 'POST',
+                body: JSON.stringify(parkingData)
+            })
+        },
+        async end(parkingId) {
+            return api.request(`/parking/end?parkingId=${parkingId}`, {
+                method: 'PATCH'
+            })
+        },
+        async getActive() {
+            return api.request('/parking/active')
+        },
+        async getHistory() {
+            return api.request('/parking/history')
+        },
+        async getById(parkingId) {
+            return api.request(`/parking/details?parkingId=${parkingId}`)
+        }
     }
 }

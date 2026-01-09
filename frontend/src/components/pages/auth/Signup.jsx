@@ -111,7 +111,8 @@ export function Signup() {
           name: formData.fullName,
           email: formData.email,
           password: formData.password,
-          role: selectedRole
+          role: selectedRole,
+          mobile: formData.phone
         })
       })
 

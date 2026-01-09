@@ -50,8 +50,7 @@ const updateVehicles = async (req, res) => {
         }
 
         const { vehicleId } = req.query
-        const { vehicleName, vehicleNumber, ownerName, vehicleType, isActive } = req.body
-
+        const { vehicleName, ownerName, vehicleType, isActive } = req.body
 
         const existingVehicle = await prisma.vehicle.findFirst({
             where: {
@@ -66,15 +65,15 @@ const updateVehicles = async (req, res) => {
             })
         }
 
+        const updateData = {}
+        if (vehicleName) updateData.vehicleName = vehicleName
+        if (ownerName) updateData.ownerName = ownerName
+        if (vehicleType) updateData.vehicleType = vehicleType
+        if (isActive !== undefined) updateData.isActive = isActive
+
         const vehicle = await prisma.vehicle.update({
-            where: { id: vehicleId ,vehicleNumber :existingVehicle.vehicleNumber},
-            data: {
-                vehicleName,
-                ownerName,
-                vehicleType,
-                isActive
-            
-            }
+            where: { id: vehicleId },
+            data: updateData
         })
 
         res.status(200).json({

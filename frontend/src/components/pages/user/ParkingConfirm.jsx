@@ -1,20 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft, Car, MapPin, Smartphone, CreditCard, Banknote, Building2 } from 'lucide-react'
+import { api } from '../../../services/api'
 
 export function ConfirmParking() {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
   const [selectedPayment, setSelectedPayment] = useState('upi')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [user, setUser] = useState(null)
 
   const scannedData = location.state?.scannedData || {
-    owner: 'Rahul Sharma',
-    vehicle: 'Honda City',
-    numberPlate: 'KA 01 AB 1234',
-    mobile: '+91 98765 43210',
     parkingLocation: 'Phoenix Market City',
     address: 'Whitefield, Bangalore'
-  };
+  }
+  const selectedVehicle = location.state?.selectedVehicle
+
+  useEffect(() => {
+    const userData = localStorage.getItem('user')
+    if (userData) {
+      setUser(JSON.parse(userData))
+    }
+  }, [])
+
+  if (!selectedVehicle) {
+    navigate('/vehicle-selection', { state: { scannedData } })
+    return null
+  }
 
   const paymentMethods = [
     {
@@ -48,31 +61,38 @@ export function ConfirmParking() {
   ];
 
   const handleBack = () => {
-    navigate('/ticket');
-  };
-
-  const handleConfirmParking = () => {
-    const parkingData = {
-      ...scannedData,
-      paymentMethod: selectedPayment,
-      entryTime: new Date().toLocaleTimeString('en-US', { 
-        hour12: false, 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      }),
-      date: new Date().toISOString().split('T')[0],
-      status: 'active'
-    }
-
-    alert(`Parking confirmed!\nPayment Method: ${paymentMethods.find(p => p.id === selectedPayment)?.name}\nEntry Time: ${parkingData.entryTime}`)
-    
-    navigate('/ticket', { 
-      state: { 
-        activeSession: true,
-        parkingData: parkingData
-      }
-    })
+    navigate('/vehicle-selection', { state: { scannedData } })
   }
+
+  const handleConfirmParking = async () => {
+    setError('')
+    setLoading(true)
+
+    try {
+      const data = await api.parking.start({
+        vehicleId: selectedVehicle.id,
+        location: scannedData.parkingLocation,
+        address: scannedData.address,
+        paymentMethod: selectedPayment
+      })
+
+      navigate('/ticket', {
+        state: {
+          activeSession: true,
+          parkingData: data.data
+        }
+      })
+    } catch (err) {
+      setError(err.message || 'Failed to start parking')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const baseRate = 100
+  const serviceFee = 30
+  const gst = 20
+  const totalAmount = baseRate + serviceFee + gst
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -107,19 +127,19 @@ export function ConfirmParking() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
                   <span className="text-gray-600 font-medium">Owner</span>
-                  <span className="text-gray-900 font-semibold">{scannedData.owner}</span>
+                  <span className="text-gray-900 font-semibold">{selectedVehicle.ownerName}</span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
                   <span className="text-gray-600 font-medium">Vehicle</span>
-                  <span className="text-gray-900 font-semibold">{scannedData.vehicle}</span>
+                  <span className="text-gray-900 font-semibold">{selectedVehicle.vehicleName}</span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-gray-100">
                   <span className="text-gray-600 font-medium">Number Plate</span>
-                  <span className="text-gray-900 font-semibold">{scannedData.numberPlate}</span>
+                  <span className="text-gray-900 font-semibold">{selectedVehicle.vehicleNumber}</span>
                 </div>
                 <div className="flex justify-between items-center py-3">
                   <span className="text-gray-600 font-medium">Mobile</span>
-                  <span className="text-gray-900 font-semibold">{scannedData.mobile}</span>
+                  <span className="text-gray-900 font-semibold">{user?.mobile || 'N/A'}</span>
                 </div>
               </div>
             </div>
@@ -183,11 +203,37 @@ export function ConfirmParking() {
                 })}
               </div>
 
+              <div className="mb-6 space-y-3">
+                <div className="flex justify-between text-gray-600">
+                  <span>Base Rate</span>
+                  <span>₹{baseRate}</span>
+                </div>
+                <div className="flex justify-between text-gray-600">
+                  <span>Service Fee</span>
+                  <span>₹{serviceFee}</span>
+                </div>
+                <div className="flex justify-between text-gray-600">
+                  <span>GST (18%)</span>
+                  <span>₹{gst}</span>
+                </div>
+                <div className="flex justify-between text-xl font-bold text-gray-900 pt-3 border-t border-gray-200">
+                  <span>Total Amount</span>
+                  <span>₹{totalAmount}</span>
+                </div>
+              </div>
+
+              {error && (
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm mb-4">
+                  {error}
+                </div>
+              )}
+
               <button
                 onClick={handleConfirmParking}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:shadow-lg transition-all font-medium text-lg"
+                disabled={loading}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:shadow-lg transition-all font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Confirm Parking
+                {loading ? 'Processing...' : 'Park My Car'}
               </button>
             </div>
           </div>

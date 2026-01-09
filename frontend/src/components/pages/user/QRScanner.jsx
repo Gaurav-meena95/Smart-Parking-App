@@ -36,26 +36,18 @@ export function QRScanner() {
 
   const handleScanSuccess = () => {
     const scannedData = {
-      owner: 'John Doe',
-      vehicle: 'Toyota Camry',
-      numberPlate: 'MH 12 AB 1234',
-      mobile: '+91 98765 43210',
       parkingLocation: 'Inorbit Mall',
       address: 'Malad West, Mumbai'
     }
-    navigate('/confirm-parking', { state: { scannedData } })
+    navigate('/vehicle-selection', { state: { scannedData } })
   }
 
   const handleManualEntry = () => {
     const defaultData = {
-      owner: 'Rahul Sharma',
-      vehicle: 'Honda City',
-      numberPlate: 'KA 01 AB 1234',
-      mobile: '+91 98765 43210',
       parkingLocation: 'Phoenix Market City',
       address: 'Whitefield, Bangalore'
     }
-    navigate('/confirm-parking', { state: { scannedData: defaultData } })
+    navigate('/vehicle-selection', { state: { scannedData: defaultData } })
   }
 
   return (

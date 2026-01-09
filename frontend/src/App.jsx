@@ -6,10 +6,15 @@ import { Login } from './components/pages/auth/Login'
 import { Signup } from './components/pages/auth/Signup'
 import { UserHome } from './components/pages/user/Home'
 import { QRScanner } from './components/pages/user/QRScanner'
+import { VehicleSelection } from './components/pages/user/VehicleSelection'
+import { AddVehicle } from './components/pages/user/AddVehicle'
 import { ConfirmParking } from './components/pages/user/ParkingConfirm'
 import { UserTicket } from './components/pages/user/Ticket'
 import { UserHistory } from './components/pages/user/History'
 import { UserSettings } from './components/pages/user/Setting'
+import { ManageVehicles } from './components/pages/user/ManageVehicles'
+import { FAQ } from './components/pages/user/FAQ'
+import { HelpSupport } from './components/pages/user/HelpSupport'
 import { BottomNav } from './components/BottomNav'
 
 function ProtectedRoute({ children }) {
@@ -36,10 +41,15 @@ export default function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/home" element={<ProtectedRoute><UserHome /></ProtectedRoute>} />
                     <Route path="/qr-scanner" element={<ProtectedRoute><QRScanner /></ProtectedRoute>} />
+                    <Route path="/vehicle-selection" element={<ProtectedRoute><VehicleSelection /></ProtectedRoute>} />
+                    <Route path="/add-vehicle" element={<ProtectedRoute><AddVehicle /></ProtectedRoute>} />
                     <Route path="/confirm-parking" element={<ProtectedRoute><ConfirmParking /></ProtectedRoute>} />
                     <Route path="/ticket" element={<ProtectedRoute><UserTicket /></ProtectedRoute>} />
                     <Route path="/history" element={<ProtectedRoute><UserHistory /></ProtectedRoute>} />
                     <Route path="/settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />
+                    <Route path="/manage-vehicles" element={<ProtectedRoute><ManageVehicles /></ProtectedRoute>} />
+                    <Route path="/faq" element={<ProtectedRoute><FAQ /></ProtectedRoute>} />
+                    <Route path="/help-support" element={<ProtectedRoute><HelpSupport /></ProtectedRoute>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

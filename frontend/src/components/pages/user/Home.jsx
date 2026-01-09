@@ -1,31 +1,66 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { QrCode, ArrowRight, Car, Calendar } from 'lucide-react'
+import { QrCode, ArrowRight, Car, Calendar, MapPin, Clock } from 'lucide-react'
+import { api } from '../../../services/api'
 
 export function UserHome() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [activeParking, setActiveParking] = useState(null)
+  const [recentParking, setRecentParking] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const userData = localStorage.getItem('user')
     if (userData) {
       setUser(JSON.parse(userData))
     }
+    fetchParkingData()
   }, [])
 
+  const fetchParkingData = async () => {
+    try {
+      const [activeData, historyData] = await Promise.all([
+        api.parking.getActive(),
+        api.parking.getHistory()
+      ])
+      setActiveParking(activeData.data)
+      setRecentParking(historyData.data?.slice(0, 3) || [])
+    } catch (error) {
+      console.error('Error fetching parking data:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleScanToPark = () => {
-    // Navigate to QR scanner page
-    navigate('/qr-scanner');
-  };
+    navigate('/qr-scanner')
+  }
 
   const handleViewAllHistory = () => {
-    navigate('/history');
-  };
+    navigate('/history')
+  }
 
   const handleParkingCardClick = (parking) => {
-    // Navigate to ticket page with parking details
-    navigate('/ticket', { state: { parking } });
-  };
+    navigate('/ticket', { state: { parking } })
+  }
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
+  }
+
+  const formatTime = (dateString) => {
+    const date = new Date(dateString)
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })
+  }
+
+  const formatDuration = (hours, minutes) => {
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`
+    }
+    return `${minutes}m`
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -58,7 +93,7 @@ export function UserHome() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
             <button 
               onClick={handleScanToPark}
               className="w-full bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-100 hover:shadow-2xl transition-all group"
@@ -69,11 +104,47 @@ export function UserHome() {
                 </div>
                 <div className="flex-1 text-left">
                   <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Scan to Park</h3>
-                  <p className="text-lg text-gray-600">Quick parking at any location with QR code scanning</p>
+                  <p className="text-lg text-gray-600">Scan QR code at parking entrance</p>
                 </div>
                 <ArrowRight className="w-8 h-8 text-gray-400 group-hover:text-indigo-600 transition-colors" />
               </div>
             </button>
+
+            {activeParking && (
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Active Parking</h4>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-5 h-5 text-indigo-600" />
+                      <span className="font-medium text-gray-900">{activeParking.location}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Clock className="w-5 h-5 text-gray-600" />
+                      <span className="text-gray-600">{formatTime(activeParking.entryTime)}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Vehicle</span>
+                    <span className="font-semibold text-gray-900">{activeParking.vehicle.vehicleNumber}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-gray-600">Parked</span>
+                    <span className="font-semibold text-indigo-600">
+                      {formatDuration(activeParking.duration?.hours || 0, activeParking.duration?.minutes || 0)}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => navigate('/ticket')}
+                    className="w-full mt-4 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+                  >
+                    View Ticket
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="space-y-6">
@@ -82,15 +153,11 @@ export function UserHome() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Total Parkings</span>
-                  <span className="font-semibold text-gray-900">0</span>
+                  <span className="font-semibold text-gray-900">{recentParking.length}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">This Month</span>
-                  <span className="font-semibold text-green-600">₹450</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Avg Duration</span>
-                  <span className="font-semibold text-gray-900">2h 15m</span>
+                  <span className="text-gray-600">Active</span>
+                  <span className="font-semibold text-green-600">{activeParking ? '1' : '0'}</span>
                 </div>
               </div>
             </div>
@@ -100,18 +167,66 @@ export function UserHome() {
         <div className="mt-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Recent Parking</h2>
-            <button 
-              onClick={handleViewAllHistory}
-              className="text-lg text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
-            >
-              View All History →
-            </button>
+            {recentParking.length > 0 && (
+              <button 
+                onClick={handleViewAllHistory}
+                className="text-lg text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
+              >
+                View All History →
+              </button>
+            )}
           </div>
           
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">No recent parking history</p>
-            <p className="text-gray-500 mt-2">Start parking to see your history here</p>
-          </div>
+          {loading ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600">Loading...</p>
+            </div>
+          ) : recentParking.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No recent parking history</p>
+              <p className="text-gray-500 mt-2">Start parking to see your history here</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {recentParking.map((parking) => (
+                <div
+                  key={parking.id}
+                  onClick={() => handleParkingCardClick(parking)}
+                  className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all cursor-pointer"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-1">{parking.location}</h3>
+                      <p className="text-gray-600 text-sm">{parking.address}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Amount</span>
+                      <span className="font-semibold text-green-600">₹{parking.totalAmount}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Date</span>
+                      <span className="text-gray-900">{formatDate(parking.entryTime)}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Vehicle</span>
+                      <span className="text-gray-900">{parking.vehicle.vehicleNumber}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600">Duration</span>
+                      <span className="text-gray-900">
+                        {formatDuration(parking.duration?.hours || 0, parking.duration?.minutes || 0)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                    completed
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4 gap-8">

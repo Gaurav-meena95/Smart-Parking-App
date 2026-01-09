@@ -55,10 +55,8 @@ const login = async (req, res) => {
             } 
         })
         if (!existing) {
-            console.log('User not found:', { email, role });
             return res.status(404).json({ message: "User not found or Check your Role " })
         } else {
-            console.log('User found:', existing.email);
             const isPasswordMatch = bcrypt.compareSync(password, existing.password)
             if (isPasswordMatch) {
                 const jwtToken = await jwt.sign(
@@ -71,7 +69,6 @@ const login = async (req, res) => {
                     sec_key,
                     { expiresIn: '7d' }
                 )
-                console.log('Login successful, sending tokens');
                 return res.status(200).json({
                     message: "Login Successfully",
                     user: existing,
@@ -79,7 +76,6 @@ const login = async (req, res) => {
                     refreshToken
                 });
             } else {
-                console.log('Password mismatch');
                 return res.status(401).json({ message: 'Invalid credentials' })
             }
         }

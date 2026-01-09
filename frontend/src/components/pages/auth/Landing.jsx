@@ -1,18 +1,17 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Car, Shield, Clock, MapPin, Users, Star, ArrowRight, CheckCircle } from 'lucide-react';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Car, Shield, Clock, MapPin, Users, Star, ArrowRight, CheckCircle } from 'lucide-react'
 
 export function Landing() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleGetStarted = () => {
-    navigate('/login');
-  };
+    navigate('/login')
+  }
 
   const handleLearnMore = () => {
-    // Scroll to features section
-    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
-  };
+    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const features = [
     {
@@ -60,11 +59,9 @@ export function Landing() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
       <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
-            {/* Logo */}
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Car className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
@@ -75,7 +72,6 @@ export function Landing() {
               </div>
             </div>
 
-            {/* Navigation Links */}
             <div className="hidden lg:flex items-center gap-8">
               <button 
                 onClick={handleLearnMore}
@@ -91,7 +87,6 @@ export function Landing() {
               </a>
             </div>
 
-            {/* Auth Buttons */}
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => navigate('/login')}
@@ -110,11 +105,9 @@ export function Landing() {
         </div>
       </nav>
 
-      {/* Hero Section */}
       <section className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Hero Content */}
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
@@ -144,7 +137,6 @@ export function Landing() {
                 </button>
               </div>
 
-              {/* Stats */}
               <div className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-200">
                 <div className="text-center">
                   <p className="text-3xl font-bold text-gray-900">50K+</p>
@@ -161,11 +153,9 @@ export function Landing() {
               </div>
             </div>
 
-            {/* Hero Image/Illustration */}
             <div className="relative">
               <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl p-8 lg:p-12">
                 <div className="grid grid-cols-2 gap-6">
-                  {/* Mock App Interface */}
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -216,7 +206,6 @@ export function Landing() {
         </div>
       </section>
 
-      {/* Features Section */}
       <section id="features" className="py-20 lg:py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -245,7 +234,6 @@ export function Landing() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
       <section id="testimonials" className="py-20 lg:py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -276,7 +264,6 @@ export function Landing() {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-20 lg:py-32 bg-gradient-to-r from-indigo-600 to-purple-600">
         <div className="max-w-4xl mx-auto text-center px-6 lg:px-8">
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6">
@@ -295,11 +282,9 @@ export function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
       <footer id="contact" className="bg-gray-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Company Info */}
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
@@ -315,7 +300,6 @@ export function Landing() {
               </p>
             </div>
 
-            {/* Quick Links */}
             <div>
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
@@ -326,7 +310,6 @@ export function Landing() {
               </ul>
             </div>
 
-            {/* Contact */}
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
               <ul className="space-y-2 text-gray-400">
@@ -343,5 +326,5 @@ export function Landing() {
         </div>
       </footer>
     </div>
-  );
+  )
 }

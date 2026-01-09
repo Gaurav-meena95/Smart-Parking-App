@@ -29,14 +29,11 @@ exports.verifyUserMiddleware = (req, res, next) => {
                         return res.status(401).json({ msg: 'Invalid Refresh Token 2' })
                     }
                     const { accessToken, refreshToken: newRefreshToken } = generateNewTokens(refreshDecode)
-                    
                     res.set('x-access-token', accessToken)
                     res.set('x-refresh-token', newRefreshToken)
                     req.user = refreshDecode
-                    
                     next()
                 })
-
             } else if (err) {
                 return res.status(401).json({ message: 'Invalid token' })
             } else {
@@ -44,8 +41,6 @@ exports.verifyUserMiddleware = (req, res, next) => {
                 next()
             }
         })
-
-
 
     } catch (error) {
         console.log(error)
@@ -64,8 +59,5 @@ const generateNewTokens = (decode) => {
         sec_key,
         { expiresIn: '7d' }
     )
-    console.log('object', accessToken, newRefreshToken)
     return { accessToken, newRefreshToken }
-
-
 }

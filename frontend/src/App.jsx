@@ -18,6 +18,7 @@ import { HelpSupport } from './components/pages/user/HelpSupport'
 import { AdminDashboard } from './components/pages/admin/Dashboard'
 import { ManagerDashboard } from './components/pages/manager/Dashboard'
 import { AddDriver } from './components/pages/manager/AddDriver'
+import { DriverConsole } from './components/pages/driver/Console'
 import { BottomNav } from './components/BottomNav'
 
 function ProtectedRoute({ children, showBottomNav = true }) {
@@ -56,6 +57,7 @@ export default function App() {
                     <Route path="/admin" element={<ProtectedRoute showBottomNav={false}><AdminDashboard /></ProtectedRoute>} />
                     <Route path="/manager" element={<ProtectedRoute showBottomNav={false}><ManagerDashboard /></ProtectedRoute>} />
                     <Route path="/manager/add-driver" element={<ProtectedRoute showBottomNav={false}><AddDriver /></ProtectedRoute>} />
+                    <Route path="/driver" element={<ProtectedRoute showBottomNav={false}><DriverConsole /></ProtectedRoute>} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

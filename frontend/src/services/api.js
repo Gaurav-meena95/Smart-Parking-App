@@ -172,5 +172,41 @@ export const api = {
         async getAvailableDrivers() {
             return api.request('/manager/drivers')
         }
+    },
+
+    driver: {
+        async getAssignments() {
+            return api.request('/driver/assignments')
+        },
+        async getCurrentAssignment() {
+            return api.request('/driver/current')
+        },
+        async acceptAssignment(parkingId) {
+            return api.request('/driver/accept', {
+                method: 'POST',
+                body: JSON.stringify({ parkingId })
+            })
+        },
+        async rejectAssignment(parkingId) {
+            return api.request('/driver/reject', {
+                method: 'POST',
+                body: JSON.stringify({ parkingId })
+            })
+        },
+        async startTask(parkingId) {
+            return api.request('/driver/start', {
+                method: 'POST',
+                body: JSON.stringify({ parkingId })
+            })
+        },
+        async completeTask(parkingId) {
+            return api.request('/driver/complete', {
+                method: 'POST',
+                body: JSON.stringify({ parkingId })
+            })
+        },
+        async getStats() {
+            return api.request('/driver/stats')
+        }
     }
 }

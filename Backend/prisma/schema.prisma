@@ -54,6 +54,9 @@ model Parking {
   assignedDriverId String?
   location      String
   address       String
+  parkingSlot   String?
+  taskType      TaskType    @default(PARK)
+  assignedAt    DateTime?
   entryTime      DateTime
   exitTime       DateTime?
   baseRate       Float       @default(100)
@@ -70,8 +73,16 @@ model Parking {
   @@map("parkings")
 }
 
+enum TaskType {
+  PARK
+  RETRIEVE
+  @@map("task_types")
+}
+
 enum ParkingStatus {
+  pending
   active
+  in_progress
   completed
   cancelled
   @@map("parking_status")

@@ -13,6 +13,7 @@ const usersProfile = require('./module/User/Profle/routes')
 const parkingRoutes = require('./module/Parking/routes')
 const adminRoutes = require('./module/Admin/routes')
 const managerRoutes = require('./module/Manager/routes')
+const driverRoutes = require('./module/Driver/routes')
 
 app.get('/', (req, res) => {
     return res.status(200).json({ message: 'Hello from Smart Parking' })
@@ -24,6 +25,7 @@ app.use('/api/users', usersProfile)
 app.use('/api/parking', parkingRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/manager', managerRoutes)
+app.use('/api/driver', driverRoutes)
 
 app.listen(port, () => {
     console.log(`server is successfully on ${port}`)

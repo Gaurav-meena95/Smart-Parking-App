@@ -14,9 +14,9 @@ const addVehicles = async (req, res) => {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
-        
-        const existingVehicle = await prisma.vehicle.findUnique({ 
-            where: { vehicleNumber } 
+
+        const existingVehicle = await prisma.vehicle.findUnique({
+            where: { vehicleNumber }
         })
         if (existingVehicle) {
             return res.status(409).json({ message: 'Vehicle with this number already exists' })
@@ -45,21 +45,35 @@ const addVehicles = async (req, res) => {
 
 const updateVehicles = async (req, res) => {
     try {
-        const { id } = req.params
-        const { vehicleName, vehicleNumber, ownerName, vehicleType, isActive } = req.body
-
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
 
+        const { vehicleId } = req.query
+        const { vehicleName, vehicleNumber, ownerName, vehicleType, isActive } = req.body
+
+
+        const existingVehicle = await prisma.vehicle.findFirst({
+            where: {
+                id: vehicleId,
+                ownerId: req.user.id
+            }
+        })
+
+        if (!existingVehicle) {
+            return res.status(404).json({
+                message: 'Vehicle not found or access denied'
+            })
+        }
+
         const vehicle = await prisma.vehicle.update({
-            where: { id },
+            where: { id: vehicleId ,vehicleNumber :existingVehicle.vehicleNumber},
             data: {
-                ...(vehicleName && { vehicleName }),
-                ...(vehicleNumber && { vehicleNumber }),
-                ...(ownerName && { ownerName }),
-                ...(vehicleType && { vehicleType: vehicleType }),
-                ...(isActive !== undefined && { isActive })
+                vehicleName,
+                ownerName,
+                vehicleType,
+                isActive
+            
             }
         })
 
@@ -76,46 +90,59 @@ const updateVehicles = async (req, res) => {
 
 const deleteVehicles = async (req, res) => {
     try {
-        const { id } = req.params
-
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
         }
-
+        const { id } = req.query
+        const vehicle = await prisma.vehicle.findFirst({
+            where: {
+                id,
+                ownerId: req.user.id
+            }
+        })
+        if (!vehicle) {
+            return res.status(404).json({
+                message: 'Vehicle not found or access denied'
+            })
+        }
         await prisma.vehicle.delete({
             where: { id }
         })
-
         res.status(200).json({
             message: 'Vehicle deleted successfully'
         })
-
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Internal Server Error" })
+        console.error(error)
+        res.status(500).json({ message: 'Internal Server Error' })
     }
 }
+
 
 const getAllVehicles = async (req, res) => {
-    try {
-        if (!req.user || !req.user.id) {
-            return res.status(401).json({ message: 'Unauthorized' })
-        }
-
-        const vehicles = await prisma.vehicle.findMany({
-            where: { ownerId: req.user.id },
-            include: { owner: true }
-        })
-
-        res.status(200).json({
-            message: 'Vehicles retrieved successfully',
-            data: vehicles
-        })
-
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ message: "Internal Server Error" })
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: 'Unauthorized' })
     }
+
+    const vehicles = await prisma.vehicle.findMany({
+      where: {
+        ownerId: req.user.id
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    })
+
+    res.status(200).json({
+      success: true,
+      message: 'Vehicles fetched successfully',
+      data: vehicles
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Internal Server Error' })
+  }
 }
+
 
 module.exports = { addVehicles, updateVehicles, deleteVehicles, getAllVehicles }

@@ -145,5 +145,32 @@ export const api = {
                 body: JSON.stringify({ userId })
             })
         }
+    },
+
+    manager: {
+        async getDashboardStats() {
+            return api.request('/manager/dashboard')
+        },
+        async getParkingAssignments(status, search) {
+            const params = new URLSearchParams()
+            if (status) params.append('status', status)
+            if (search) params.append('search', search)
+            return api.request(`/manager/assignments?${params.toString()}`)
+        },
+        async addDriver(driverData) {
+            return api.request('/manager/add-driver', {
+                method: 'POST',
+                body: JSON.stringify(driverData)
+            })
+        },
+        async reassignValet(parkingId, driverId) {
+            return api.request('/manager/reassign-valet', {
+                method: 'PATCH',
+                body: JSON.stringify({ parkingId, driverId })
+            })
+        },
+        async getAvailableDrivers() {
+            return api.request('/manager/drivers')
+        }
     }
 }

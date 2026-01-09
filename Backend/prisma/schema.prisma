@@ -20,6 +20,7 @@ model User {
   updatedAt     DateTime      @updatedAt
   vehicles      Vehicle[]
   parkings      Parking[]
+  assignedParkings Parking[]  @relation("AssignedDriver")
   @@map("users")
 }
 
@@ -50,6 +51,7 @@ model Parking {
   ticketId      String      @unique
   userId        String
   vehicleId     String
+  assignedDriverId String?
   location      String
   address       String
   entryTime      DateTime
@@ -64,6 +66,7 @@ model Parking {
   updatedAt      DateTime    @updatedAt
   user           User        @relation(fields: [userId], references: [id])
   vehicle        Vehicle     @relation(fields: [vehicleId], references: [id])
+  assignedDriver User?       @relation("AssignedDriver", fields: [assignedDriverId], references: [id])
   @@map("parkings")
 }
 

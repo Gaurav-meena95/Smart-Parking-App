@@ -1,9 +1,8 @@
-const User = require('./db.js')
+const { prisma } = require('../DB/prisma')
 const sec_key = process.env.sec_key
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { validationInput } = require('../utils/utils.js')
-
 
 const signup = async (req, res) => {
     try {
@@ -14,20 +13,23 @@ const signup = async (req, res) => {
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return res.status(401).json({ message: "Invalid Email Address" })
-
         }
         if (!/(?=.*[!@#$%^&*])(?=.{6,})/.test(password)) {
             return res.status(400).json({ message: "Password must be at least 6 characters long and contain one special character" });
         }
 
-        const exsiting = await User.findOne({ email });
-        if (exsiting) {
+        const existing = await prisma.user.findUnique({ where: { email } });
+        if (existing) {
             return res.status(400).json({ message: 'User is already exists' })
         }
         const hashedPassword = await bcrypt.hash(password, 10)
-        const newUser = await User.create({
-            name, email,
-            password: hashedPassword, role,
+        const newUser = await prisma.user.create({
+            data: {
+                name, 
+                email,
+                password: hashedPassword, 
+                role: role || 'user'
+            }
         });
         return res.status(201).json({
             message: 'Signup successful',
@@ -39,7 +41,6 @@ const signup = async (req, res) => {
     }
 }
 
-
 const login = async (req, res) => {
     try {
         const { email, password, role } = req.body
@@ -47,7 +48,12 @@ const login = async (req, res) => {
         if (value) {
             return res.status(403).json({ message: `Check missing value ${value}` })
         }
-        const existing = await User.findOne({ email, role })
+        const existing = await prisma.user.findFirst({ 
+            where: { 
+                email, 
+                role: role 
+            } 
+        })
         if (!existing) {
             console.log('User not found:', { email, role });
             return res.status(404).json({ message: "User not found or Check your Role " })
@@ -72,12 +78,10 @@ const login = async (req, res) => {
                     token: jwtToken,
                     refreshToken
                 });
-
             } else {
                 console.log('Password mismatch');
                 return res.status(401).json({ message: 'Invalid credentials' })
             }
-
         }
     } catch (error) {
         console.log(error)

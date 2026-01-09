@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(user)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  vehicles  Vehicle[]
+  
+  @@map("users")
+}
+
+model Vehicle {
+  id            String      @id @default(cuid())
+  vehicleName   String
+  vehicleNumber String      @unique
+  ownerName     String
+  ownerId       String?
+  vehicleType   VehicleType @default(car)
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Relations
+  owner         User?       @relation(fields: [ownerId], references: [id])
+  
+  @@map("vehicles")
+}
+
+enum Role {
+  user
+  manager
+  driver
+  admin
+  
+  @@map("user_roles")
+}
+
+enum VehicleType {
+  car
+  bike
+  suv
+  
+  @@map("vehicle_types")
+}

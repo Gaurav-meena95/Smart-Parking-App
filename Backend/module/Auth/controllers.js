@@ -1,8 +1,8 @@
-const { prisma } = require('../DB/prisma')
+const { prisma } = require('../../DB/config.js')
 const sec_key = process.env.sec_key
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { validationInput } = require('../utils/utils.js')
+const { validationInput } = require('../../utils/utils.js')
 
 const signup = async (req, res) => {
     try {

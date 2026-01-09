@@ -1,5 +1,6 @@
-const { validationInput } = require("../../utils/utils")
-const { prisma } = require('../../DB/prisma')
+const { validationInput } = require("../../../utils/utils")
+const { prisma } = require('../../../DB/config')
+
 
 const addVehicles = async (req, res) => {
     try {

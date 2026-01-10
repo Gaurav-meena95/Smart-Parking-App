@@ -4,7 +4,8 @@ const corsOptions = {
     origin: [
         'http://localhost:5173',
         'http://localhost:3000',
-        'https://smart-parking-app-snowy.vercel.app/landing'
+        'https://smart-parking-app-snowy.vercel.app'
+
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],

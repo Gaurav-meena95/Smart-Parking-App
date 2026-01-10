@@ -41,7 +41,7 @@ const getAssignments = async (req, res) => {
     }
 }
 
-// Get current active assignment
+
 const getCurrentAssignment = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
@@ -83,7 +83,7 @@ const getCurrentAssignment = async (req, res) => {
     }
 }
 
-// Accept an assignment
+
 const acceptAssignment = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
@@ -100,7 +100,7 @@ const acceptAssignment = async (req, res) => {
             return res.status(400).json({ message: 'parkingId is required' })
         }
 
-        // Check if driver already has an active assignment
+        
         const activeAssignment = await prisma.parking.findFirst({
             where: {
                 assignedDriverId: req.user.id,
@@ -112,7 +112,7 @@ const acceptAssignment = async (req, res) => {
             return res.status(400).json({ message: 'You already have an active assignment. Please complete it first.' })
         }
 
-        // Find and update the parking assignment
+        
         const parking = await prisma.parking.findFirst({
             where: {
                 id: parkingId,
@@ -154,7 +154,7 @@ const acceptAssignment = async (req, res) => {
     }
 }
 
-// Reject an assignment
+
 const rejectAssignment = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
@@ -183,7 +183,7 @@ const rejectAssignment = async (req, res) => {
             return res.status(404).json({ message: 'Assignment not found or already processed' })
         }
 
-        // Remove driver assignment
+        
         const updatedParking = await prisma.parking.update({
             where: { id: parkingId },
             data: {
@@ -202,7 +202,7 @@ const rejectAssignment = async (req, res) => {
     }
 }
 
-// Start the parking/retrieval task
+
 const startTask = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
@@ -242,7 +242,7 @@ const startTask = async (req, res) => {
     }
 }
 
-// Complete the current task
+
 const completeTask = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
@@ -301,7 +301,6 @@ const completeTask = async (req, res) => {
     }
 }
 
-// Get driver statistics
 const getStats = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {

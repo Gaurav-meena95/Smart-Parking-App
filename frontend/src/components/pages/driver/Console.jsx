@@ -20,56 +20,29 @@ export function DriverConsole() {
       setLoading(true);
       setError(null);
 
-      console.log('🚀 Starting fetchData...');
-
-      // Check if user is logged in
-      const token = localStorage.getItem('token');
-      console.log('Token exists:', !!token);
-
-      // Fetch driver info
       const userResponse = await api.auth.getMe();
-      console.log('User Response:', userResponse);
       if (userResponse && userResponse.name) {
         setDriverName(userResponse.name);
-        console.log('Driver name set:', userResponse.name);
       }
 
-      // Fetch assignments, current task, and stats in parallel
-      console.log('🔄 Fetching driver data...');
-      
-      const assignmentsResponse = await api.driver.getAssignments();
-      console.log('Assignments Response:', assignmentsResponse);
-      
-      const currentResponse = await api.driver.getCurrentAssignment();
-      console.log('Current Response:', currentResponse);
-      
-      const statsResponse = await api.driver.getStats();
-      console.log('Stats Response:', statsResponse);
+      const [assignmentsResponse, currentResponse, statsResponse] = await Promise.all([
+        api.driver.getAssignments(),
+        api.driver.getCurrentAssignment(),
+        api.driver.getStats()
+      ]);
 
-      if (assignmentsResponse && assignmentsResponse.success) {
-        console.log('Setting assignments:', assignmentsResponse.data);
+      if (assignmentsResponse.success) {
         setAssignments(assignmentsResponse.data || []);
-      } else {
-        console.log('❌ Assignments response failed or no success flag');
       }
 
-      if (currentResponse && currentResponse.success && currentResponse.data) {
-        console.log('Setting current task:', currentResponse.data);
+      if (currentResponse.success && currentResponse.data) {
         setCurrentTask(currentResponse.data);
-      } else {
-        console.log('ℹ️ No current task');
       }
 
-      if (statsResponse && statsResponse.success) {
-        console.log('Setting stats:', statsResponse.data);
+      if (statsResponse.success) {
         setStats(statsResponse.data);
-      } else {
-        console.log('❌ Stats response failed or no success flag');
       }
-
-      console.log('✅ fetchData completed');
     } catch (err) {
-      console.error('❌ Error fetching data:', err);
       setError(err.message || 'Failed to load data');
     } finally {
       setLoading(false);
@@ -82,15 +55,11 @@ export function DriverConsole() {
       const response = await api.driver.acceptAssignment(assignment.id);
 
       if (response.success) {
-        // Remove from assignments list
         setAssignments(prev => prev.filter(a => a.id !== assignment.id));
-        // Set as current task
         setCurrentTask(response.data);
-        // Update stats
         await fetchStats();
       }
     } catch (err) {
-      console.error('Error accepting assignment:', err);
       setError(err.message || 'Failed to accept assignment');
     }
   };
@@ -101,13 +70,10 @@ export function DriverConsole() {
       const response = await api.driver.rejectAssignment(assignment.id);
 
       if (response.success) {
-        // Remove from assignments list
         setAssignments(prev => prev.filter(a => a.id !== assignment.id));
-        // Update stats
         await fetchStats();
       }
     } catch (err) {
-      console.error('Error rejecting assignment:', err);
       setError(err.message || 'Failed to reject assignment');
     }
   };
@@ -122,11 +88,8 @@ export function DriverConsole() {
       const response = await api.driver.startTask(currentTask.id);
 
       if (response.success) {
-        // Show in-progress state
-        // Task already started, just update UI state
       }
     } catch (err) {
-      console.error('Error starting task:', err);
       setError(err.message || 'Failed to start task');
       setTaskInProgress(false);
     }
@@ -140,14 +103,11 @@ export function DriverConsole() {
       const response = await api.driver.completeTask(currentTask.id);
 
       if (response.success) {
-        // Clear current task
         setCurrentTask(null);
         setTaskInProgress(false);
-        // Refresh data
         await fetchData();
       }
     } catch (err) {
-      console.error('Error completing task:', err);
       setError(err.message || 'Failed to complete task');
     }
   };
@@ -159,7 +119,6 @@ export function DriverConsole() {
         setStats(response.data);
       }
     } catch (err) {
-      console.error('Error fetching stats:', err);
     }
   };
 
@@ -197,7 +156,6 @@ export function DriverConsole() {
   return (
     <div className="min-h-screen bg-gray-50 pb-8">
       <div className="max-w-6xl mx-auto px-6 lg:px-8 py-8">
-        {/* Gradient Header */}
         <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white px-8 py-12 rounded-3xl mb-8">
           <div className="flex items-center justify-between">
             <div>
@@ -217,7 +175,6 @@ export function DriverConsole() {
             </button>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-3 gap-4 mt-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center">
               <p className="text-white/80 text-sm mb-1">New Assignments</p>
@@ -234,7 +191,6 @@ export function DriverConsole() {
           </div>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl mb-6">
             <p className="font-medium">{error}</p>
@@ -242,7 +198,6 @@ export function DriverConsole() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column - New Assignments */}
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">New Assignments</h2>
 
@@ -323,14 +278,12 @@ export function DriverConsole() {
             )}
           </div>
 
-          {/* Right Column - Current Task */}
           <div className="space-y-6">
             <h2 className="text-2xl font-semibold text-gray-900">Current Assignment</h2>
 
             <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
               {currentTask ? (
                 taskInProgress ? (
-                  // Task in progress state
                   <div className="text-center py-8">
                     <div className="w-24 h-24 bg-blue-100 rounded-full mx-auto flex items-center justify-center mb-6 animate-pulse">
                       <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
@@ -349,7 +302,6 @@ export function DriverConsole() {
                     </button>
                   </div>
                 ) : (
-                  // Task accepted, ready to start
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       <h3 className="text-xl font-semibold text-gray-900">Active Task</h3>

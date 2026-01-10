@@ -1,9 +1,9 @@
 const express = require('express')
 require('dotenv').config()
 const app = express()
-const cors = require('cors')
+const corsMiddleware = require('./middleware/cors')
 
-app.use(cors())
+app.use(corsMiddleware)
 app.use(express.json())
 
 const port = process.env.PORT || 3000
@@ -16,7 +16,7 @@ const managerRoutes = require('./module/Manager/routes')
 const driverRoutes = require('./module/Driver/routes')
 
 app.get('/', (req, res) => {
-    return res.status(200).json({ message: 'Hello from Smart Parking' })
+    return res.status(200).json({ message: 'Smart Parking API is running' })
 })
 
 app.use('/api/auth/', authenticationRoutes)
@@ -28,5 +28,5 @@ app.use('/api/manager', managerRoutes)
 app.use('/api/driver', driverRoutes)
 
 app.listen(port, () => {
-    console.log(`server is successfully on ${port}`)
+    console.log(`Server running on port ${port}`)
 })

@@ -2,11 +2,12 @@ const express = require('express')
 const { verifyUserMiddleware } = require('../Auth/middleware')
 const { getDashboardStats, getParkingAssignments, addDriver, reassignValet, getAvailableDrivers } = require('./controllers')
 const router = express.Router()
+router.use(verifyUserMiddleware)
 
-router.get('/dashboard', verifyUserMiddleware, getDashboardStats)
-router.get('/assignments', verifyUserMiddleware, getParkingAssignments)
-router.post('/add-driver', verifyUserMiddleware, addDriver)
-router.patch('/reassign-valet', verifyUserMiddleware, reassignValet)
-router.get('/drivers', verifyUserMiddleware, getAvailableDrivers)
+router.get('/dashboard', getDashboardStats)
+router.get('/assignments', getParkingAssignments)
+router.post('/add-driver', addDriver)
+router.patch('/reassign-valet', reassignValet)
+router.get('/drivers', getAvailableDrivers)
 
 module.exports = router

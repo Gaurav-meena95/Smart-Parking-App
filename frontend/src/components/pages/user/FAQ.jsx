@@ -38,12 +38,12 @@ export function FAQ() {
         <div className="mb-8">
           <button
             onClick={() => navigate('/settings')}
-            className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+            className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-10 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Settings
           </button>
-          <div className='bg-linear-to-r from-indigo-600  to-purple-800  mb-8 lg:mb-12 rounded-2xl'>
+          <div className='bg-linear-to-r from-indigo-600  to-purple-800 mt-6  mb-8 lg:mb-12 rounded-2xl'>
             <div className='p-5'> 
               <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">FAQ</h1>
               <p className="text-lg text-gray-300/70">Frequently Asked Questions</p>

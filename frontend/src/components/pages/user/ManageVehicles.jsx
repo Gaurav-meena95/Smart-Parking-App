@@ -82,14 +82,14 @@ export function ManageVehicles() {
             <ArrowLeft className="w-5 h-5" />
             Back to Settings
           </button>
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mt-5 mb-6">
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Manage Vehicles</h1>
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2">Manage Vehicles</h1>
               <p className="text-lg text-gray-600">{vehicles.length} vehicles registered</p>
             </div>
             <button
               onClick={handleAddNew}
-              className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+              className="bg-indigo-600 text-sm lg:text-xl text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-1"
             >
               <Plus className="w-5 h-5" />
               Add New Vehicle

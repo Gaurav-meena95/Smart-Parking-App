@@ -67,13 +67,13 @@ export function WebsiteHeader({ currentRole }) {
 
           {/* Right side actions */}
           <div className="flex items-center gap-4">
-            <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
+            <button className="p-2 text-gray-600 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
               <Bell className="w-5 h-5" />
             </button>
-            <button className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
+            <button className="p-2 text-gray-600 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
               <User className="w-5 h-5" />
             </button>
-            <button className="lg:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
+            <button className="lg:hidden p-2 text-gray-600 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
               <Menu className="w-5 h-5" />
             </button>
           </div>

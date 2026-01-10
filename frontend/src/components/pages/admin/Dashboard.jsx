@@ -130,7 +130,7 @@ export function AdminDashboard() {
             <div className="flex gap-4 mb-6">
               <button
                 onClick={() => setActiveTab('overview')}
-                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 cursor-pointer rounded-lg font-medium transition-colors ${
                   activeTab === 'overview'
                     ? 'bg-white text-indigo-600'
                     : 'bg-white/20 text-white hover:bg-white/30'
@@ -353,8 +353,8 @@ export function AdminDashboard() {
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">{driver.name}</h3>
                         <p className="text-sm text-gray-600 mb-1">{driver.email}</p>
-                        {driver.mobile && (
-                          <p className="text-sm text-gray-600">{driver.mobile}</p>
+                        {driver.phone && (
+                          <p className="text-sm text-gray-600">{driver.phone}</p>
                         )}
                         <p className="text-xs text-gray-500 mt-2">Applied on {new Date(driver.createdAt).toLocaleDateString()}</p>
                       </div>

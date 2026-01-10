@@ -61,7 +61,7 @@ After seeding data:
 - Manager dashboard
 - Admin controls
 - Real-time updates
-- Mobile-responsive design
+- phone-responsive design
 
 ## Tech Stack
 

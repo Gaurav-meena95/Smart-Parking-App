@@ -37,26 +37,6 @@ export function Signup() {
       bgColor: 'bg-green-50',
       textColor: 'text-green-600',
       available: true
-    },
-    {
-      id: 'manager',
-      name: 'Manager',
-      description: 'Contact admin for manager access',
-      icon: Shield,
-      color: 'from-purple-500 to-purple-600',
-      bgColor: 'bg-purple-50',
-      textColor: 'text-purple-600',
-      available: false
-    },
-    {
-      id: 'admin',
-      name: 'Admin',
-      description: 'Admin access by invitation only',
-      icon: Settings,
-      color: 'from-red-500 to-red-600',
-      bgColor: 'bg-red-50',
-      textColor: 'text-red-600',
-      available: false
     }
   ];
 
@@ -74,7 +54,7 @@ export function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    
+
     if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('Please fill in all required fields')
       return
@@ -108,7 +88,7 @@ export function Signup() {
         email: formData.email,
         password: formData.password,
         role: selectedRole,
-        mobile: formData.phone
+        phone: formData.phone
       })
 
       alert('Account created successfully! Please login.')
@@ -125,19 +105,19 @@ export function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100">
       <div className="min-h-screen flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full">
-          {/* Back Button */}
-          <button 
+        <div className="max-w-md w-full rounded-2xl p-8 shadow-xl border border-gray-100 ">
+
+          <button
             onClick={handleBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors"
+            className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Home
           </button>
 
-          {/* Header */}
+
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
@@ -149,7 +129,7 @@ export function Signup() {
             <p className="text-gray-600">Join Smart Parking and start your journey</p>
           </div>
 
-          {/* Role Selection */}
+
           <div className="mb-8">
             <label className="block text-sm font-medium text-gray-700 mb-4">
               Select Your Role
@@ -163,26 +143,22 @@ export function Signup() {
                     type="button"
                     onClick={() => role.available && setSelectedRole(role.id)}
                     disabled={!role.available}
-                    className={`p-4 rounded-xl border-2 transition-all text-left relative ${
-                      selectedRole === role.id && role.available
+                    className={`p-4 rounded-xl border-2 transition-all text-left relative ${selectedRole === role.id && role.available
                         ? `border-indigo-600 ${role.bgColor}`
                         : role.available
-                        ? 'border-gray-200 hover:border-gray-300 bg-white'
-                        : 'border-gray-200 bg-gray-50 opacity-60 cursor-not-allowed'
-                    }`}
+                          ? 'border-gray-200 hover:border-gray-300 bg-white'
+                          : 'border-gray-200 bg-gray-50 opacity-60 cursor-not-allowed'
+                      }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        selectedRole === role.id && role.available ? role.bgColor : 'bg-gray-100'
-                      }`}>
-                        <Icon className={`w-5 h-5 ${
-                          selectedRole === role.id && role.available ? role.textColor : 'text-gray-600'
-                        }`} />
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${selectedRole === role.id && role.available ? role.bgColor : 'bg-gray-100'
+                        }`}>
+                        <Icon className={`w-5 h-5 ${selectedRole === role.id && role.available ? role.textColor : 'text-gray-600'
+                          }`} />
                       </div>
                       <div>
-                        <p className={`font-medium ${
-                          selectedRole === role.id && role.available ? 'text-gray-900' : 'text-gray-700'
-                        }`}>
+                        <p className={`font-medium ${selectedRole === role.id && role.available ? 'text-gray-900' : 'text-gray-700'
+                          }`}>
                           {role.name}
                         </p>
                         <p className="text-xs text-gray-500">{role.description}</p>
@@ -201,10 +177,10 @@ export function Signup() {
             </div>
           </div>
 
-          {/* Signup Form */}
+
           <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
             <div className="space-y-6">
-              {/* Full Name */}
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name *
@@ -220,7 +196,7 @@ export function Signup() {
                 />
               </div>
 
-              {/* Email */}
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address *
@@ -236,7 +212,7 @@ export function Signup() {
                 />
               </div>
 
-              {/* Phone */}
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Phone Number *
@@ -252,7 +228,7 @@ export function Signup() {
                 />
               </div>
 
-              {/* Password */}
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password *
@@ -278,7 +254,7 @@ export function Signup() {
                 <p className="text-xs text-gray-500 mt-1">Minimum 6 characters</p>
               </div>
 
-              {/* Confirm Password */}
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Confirm Password *
@@ -303,7 +279,7 @@ export function Signup() {
                 </div>
               </div>
 
-              {/* Terms and Conditions */}
+
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
@@ -341,12 +317,12 @@ export function Signup() {
             </div>
           </form>
 
-          {/* Sign In Link */}
+
           <div className="text-center mt-6">
             <p className="text-gray-600">
               Already have an account?{' '}
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
               >
                 Sign in here
@@ -354,7 +330,7 @@ export function Signup() {
             </p>
           </div>
 
-          {/* Role Information */}
+
           {selectedRole === 'driver' && (
             <div className="mt-6 p-4 bg-green-50 rounded-xl border border-green-200">
               <div className="flex items-start gap-3">

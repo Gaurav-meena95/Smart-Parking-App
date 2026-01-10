@@ -36,27 +36,6 @@ export function Landing() {
     }
   ];
 
-  const testimonials = [
-    {
-      name: 'Rajesh Kumar',
-      role: 'Business Owner',
-      content: 'Smart Parking has revolutionized how we manage parking at our mall. Customer satisfaction is at an all-time high!',
-      rating: 5
-    },
-    {
-      name: 'Priya Sharma',
-      role: 'Regular User',
-      content: 'No more circling around looking for parking. The app shows me exactly where to go. Absolutely love it!',
-      rating: 5
-    },
-    {
-      name: 'Amit Patel',
-      role: 'Valet Driver',
-      content: 'The driver console makes my job so much easier. Clear instructions and efficient task management.',
-      rating: 5
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-white">
       <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
@@ -79,9 +58,6 @@ export function Landing() {
               >
                 Features
               </button>
-              <a href="#testimonials" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
-                Testimonials
-              </a>
               <a href="#contact" className="text-gray-600 hover:text-gray-900 font-medium transition-colors">
                 Contact
               </a>
@@ -234,37 +210,7 @@ export function Landing() {
         </div>
       </section>
 
-      <section id="testimonials" className="py-20 lg:py-32 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6">
-              What Our Users Say
-            </h2>
-            <p className="text-xl text-gray-600">
-              Join thousands of satisfied customers who trust Smart Parking
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-                <div className="flex items-center gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-600 mb-6 leading-relaxed">"{testimonial.content}"</p>
-                <div>
-                  <p className="font-semibold text-gray-900">{testimonial.name}</p>
-                  <p className="text-sm text-gray-600">{testimonial.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 lg:py-32 bg-gradient-to-r from-indigo-600 to-purple-600">
+      <section className="py-20 lg:py-32 bg-gradient-to-r from-indigo-600 to-purple-900">
         <div className="max-w-4xl mx-auto text-center px-6 lg:px-8">
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6">
             Ready to Transform Your Parking Experience?
@@ -274,7 +220,7 @@ export function Landing() {
           </p>
           <button 
             onClick={handleGetStarted}
-            className="bg-white text-indigo-600 px-8 py-4 rounded-xl hover:shadow-lg transition-all font-medium text-lg inline-flex items-center gap-2"
+            className="bg-white text-indigo-700 px-8 py-4 rounded-xl hover:shadow-lg transition-all font-medium text-lg inline-flex items-center gap-2"
           >
             Get Started Now
             <ArrowRight className="w-5 h-5" />
@@ -287,7 +233,7 @@ export function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-900 rounded-xl flex items-center justify-center">
                   <Car className="w-6 h-6 text-white" />
                 </div>
                 <div>
@@ -304,7 +250,6 @@ export function Landing() {
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-gray-400">
                 <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                <li><a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a></li>
                 <li><button onClick={() => navigate('/login')} className="hover:text-white transition-colors">Sign In</button></li>
                 <li><button onClick={handleGetStarted} className="hover:text-white transition-colors">Get Started</button></li>
               </ul>

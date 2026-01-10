@@ -6,7 +6,7 @@ const { validationInput } = require('../../utils/utils.js')
 
 const signup = async (req, res) => {
     try {
-        const { name, email, password, role, mobile } = req.body
+        const { name, email, password, role, phone } = req.body
         const value = validationInput({ name, email, password, role })
         if (value) {
             return res.status(403).json({ message: `Check missing value ${value}` })
@@ -31,7 +31,7 @@ const signup = async (req, res) => {
                 name, 
                 email,
                 password: hashedPassword,
-                mobile: mobile || null,
+                phone: phone || null,
                 role: userRole,
                 approvalStatus: approvalStatus
             }

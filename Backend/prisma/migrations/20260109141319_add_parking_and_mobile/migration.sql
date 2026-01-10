@@ -2,7 +2,7 @@
 CREATE TYPE "parking_status" AS ENUM ('active', 'completed', 'cancelled');
 
 -- AlterTable
-ALTER TABLE "users" ADD COLUMN     "mobile" TEXT;
+ALTER TABLE "users" ADD COLUMN     "phone" TEXT;
 
 -- CreateTable
 CREATE TABLE "parkings" (

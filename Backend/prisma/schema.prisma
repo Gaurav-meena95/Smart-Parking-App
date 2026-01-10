@@ -13,7 +13,7 @@ model User {
   name          String
   email         String        @unique
   password      String
-  mobile        String?
+  phone        String?
   role          Role          @default(user)
   approvalStatus ApprovalStatus? @default(pending)
   createdAt     DateTime      @default(now())

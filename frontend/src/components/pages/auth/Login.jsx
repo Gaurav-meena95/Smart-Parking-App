@@ -20,7 +20,11 @@ export function Login() {
       icon: User,
       color: 'from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
-      textColor: 'text-blue-600'
+      textColor: 'text-blue-600',
+      Demo_Credentials: {
+        email: 'user@demo.com',
+        password: 'User@123'
+      }
     },
     {
       id: 'driver',
@@ -29,7 +33,11 @@ export function Login() {
       icon: Truck,
       color: 'from-green-500 to-green-600',
       bgColor: 'bg-green-50',
-      textColor: 'text-green-600'
+      textColor: 'text-green-600',
+      Demo_Credentials: {
+        email: 'driver@demo.com',
+        password: 'Driver@123'
+      }
     },
     {
       id: 'manager',
@@ -38,7 +46,11 @@ export function Login() {
       icon: Shield,
       color: 'from-purple-500 to-purple-600',
       bgColor: 'bg-purple-50',
-      textColor: 'text-purple-600'
+      textColor: 'text-purple-600',
+      Demo_Credentials: {
+        email: 'manager@demo.com',
+        password: 'Manager@123'
+      }
     },
     {
       id: 'admin',
@@ -47,7 +59,11 @@ export function Login() {
       icon: Settings,
       color: 'from-red-500 to-red-600',
       bgColor: 'bg-red-50',
-      textColor: 'text-red-600'
+      textColor: 'text-red-600',
+      Demo_Credentials: {
+        email: 'admin@demo.com',
+        password: 'Admin@123'
+      }
     }
   ];
 
@@ -65,7 +81,7 @@ export function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    
+
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields')
       return
@@ -83,7 +99,7 @@ export function Login() {
         localStorage.setItem('token', result.token)
         localStorage.setItem('refreshToken', result.refreshToken)
         localStorage.setItem('user', JSON.stringify(result.user))
-        
+
         if (result.user.role === 'admin') {
           navigate('/admin')
         } else if (result.user.role === 'manager') {
@@ -106,19 +122,17 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-100">
       <div className="min-h-screen flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full">
-          {/* Back Button */}
-          <button 
+        <div className="max-w-md w-full rounded-2xl p-5 shadow-xl border border-gray-100">
+          <button
             onClick={handleBack}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-8 transition-colors"
-          >
+            className=" absolute top-6 left-6  flex items-center gap-2 text-gray-700 hover:text-gray-900 mb-8 transition-colors">
             <ArrowLeft className="w-5 h-5" />
             Back to Home
           </button>
 
-          {/* Header */}
+
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-6">
               <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
@@ -130,7 +144,6 @@ export function Login() {
             <p className="text-gray-600">Sign in to your account to continue</p>
           </div>
 
-          {/* Role Selection */}
           <div className="mb-8">
             <label className="block text-sm font-medium text-gray-700 mb-4">
               Select Your Role
@@ -143,24 +156,20 @@ export function Login() {
                     key={role.id}
                     type="button"
                     onClick={() => setSelectedRole(role.id)}
-                    className={`p-4 rounded-xl border-2 transition-all text-left ${
-                      selectedRole === role.id
-                        ? `border-indigo-600 ${role.bgColor}`
-                        : 'border-gray-200 hover:border-gray-300 bg-white'
-                    }`}
+                    className={`p-4 rounded-xl border-2 transition-all text-left ${selectedRole === role.id
+                      ? `border-indigo-600 ${role.bgColor}`
+                      : 'border-gray-200 hover:border-gray-300 bg-white'
+                      }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                        selectedRole === role.id ? role.bgColor : 'bg-gray-100'
-                      }`}>
-                        <Icon className={`w-5 h-5 ${
-                          selectedRole === role.id ? role.textColor : 'text-gray-600'
-                        }`} />
+                      <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${selectedRole === role.id ? role.bgColor : 'bg-gray-100'
+                        }`}>
+                        <Icon className={`w-5 h-5 ${selectedRole === role.id ? role.textColor : 'text-gray-600'
+                          }`} />
                       </div>
                       <div>
-                        <p className={`font-medium ${
-                          selectedRole === role.id ? 'text-gray-900' : 'text-gray-700'
-                        }`}>
+                        <p className={`font-medium ${selectedRole === role.id ? 'text-gray-900' : 'text-gray-700'
+                          }`}>
                           {role.name}
                         </p>
                         <p className="text-xs text-gray-500">{role.description}</p>
@@ -172,10 +181,8 @@ export function Login() {
             </div>
           </div>
 
-          {/* Login Form */}
           <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
             <div className="space-y-6">
-              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
@@ -191,7 +198,6 @@ export function Login() {
                 />
               </div>
 
-              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Password
@@ -216,14 +222,9 @@ export function Login() {
                 </div>
               </div>
 
-              {/* Remember Me & Forgot Password */}
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                  />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                  <span className="ml-2 text-sm text-gray-600">Don't know password </span>
                 </label>
                 <button
                   type="button"
@@ -249,12 +250,11 @@ export function Login() {
             </div>
           </form>
 
-          {/* Sign Up Link */}
           <div className="text-center mt-6">
             <p className="text-gray-600">
               Don't have an account?{' '}
-              <Link 
-                to="/signup" 
+              <Link
+                to="/signup"
                 className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors"
               >
                 Sign up here
@@ -262,14 +262,20 @@ export function Login() {
             </p>
           </div>
 
-          {/* Demo Credentials */}
           <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-            <p className="text-sm font-medium text-gray-700 mb-2">Demo Credentials:</p>
-            <div className="text-xs text-gray-600 space-y-1">
-              <p>Email: demo@smartparking.com</p>
-              <p>Password: demo123</p>
-              <p className="text-gray-500 mt-2">Use any role to explore the system</p>
-            </div>
+            <p className=" font-medium text-gray-700 mb-2">Demo Credentials: {selectedRole}</p>
+            {
+              roles.map((ele) => (
+                ele.id == selectedRole ? (
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <p>Email: {ele.Demo_Credentials.email}</p>
+                    <p>Password: {ele.Demo_Credentials.password}</p>
+                    <p className="text-gray-500 mt-2">Use any role to explore the system</p>
+                  </div>
+                ) : ('')
+              ))
+            }
+
           </div>
         </div>
       </div>

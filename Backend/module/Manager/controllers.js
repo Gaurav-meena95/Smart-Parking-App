@@ -127,7 +127,7 @@ const getParkingAssignments = async (req, res) => {
                 vehicleName: p.vehicle.vehicleName,
                 vehicleNumber: p.vehicle.vehicleNumber,
                 customerName: p.user.name,
-                customerPhone: p.user.mobile || 'N/A',
+                customerPhone: p.user.phone || 'N/A',
                 assignedValet: p.assignedDriver ? p.assignedDriver.name : 'Unassigned',
                 valetId: p.assignedDriver ? p.assignedDriver.id : null,
                 location: p.location,
@@ -182,7 +182,7 @@ const addDriver = async (req, res) => {
                 name: fullName,
                 email,
                 password: hashedPassword,
-                mobile: phone,
+                phone: phone,
                 role: 'driver',
                 approvalStatus: 'pending'
             }
@@ -194,7 +194,7 @@ const addDriver = async (req, res) => {
                 id: newDriver.id,
                 name: newDriver.name,
                 email: newDriver.email,
-                mobile: newDriver.mobile
+                phone: newDriver.phone
             }
         })
     } catch (error) {
@@ -272,7 +272,7 @@ const getAvailableDrivers = async (req, res) => {
                 id: true,
                 name: true,
                 email: true,
-                mobile: true
+                phone: true
             }
         })
 

@@ -19,7 +19,7 @@ export function Header({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           {showBack && (
-            <button onClick={onBack} className="p-2 -ml-2 hover:bg-white/10 rounded-lg transition-colors">
+            <button onClick={onBack} className="p-2 -ml-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer">
               <ArrowLeft className={`w-6 h-6 ${gradient ? 'text-white' : 'text-gray-900'}`} />
             </button>
           )}
@@ -35,7 +35,7 @@ export function Header({
           </div>
         </div>
         {showNotification && (
-          <button className="p-2 hover:bg-white/10 rounded-lg transition-colors">
+          <button className="p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer">
             <Bell className={`w-6 h-6 ${gradient ? 'text-white' : 'text-gray-900'}`} />
           </button>
         )}

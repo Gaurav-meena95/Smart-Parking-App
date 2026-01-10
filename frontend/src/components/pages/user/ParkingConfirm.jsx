@@ -138,8 +138,8 @@ export function ConfirmParking() {
                   <span className="text-gray-900 font-semibold">{selectedVehicle.vehicleNumber}</span>
                 </div>
                 <div className="flex justify-between items-center py-3">
-                  <span className="text-gray-600 font-medium">Mobile</span>
-                  <span className="text-gray-900 font-semibold">{user?.mobile || 'N/A'}</span>
+                  <span className="text-gray-600 font-medium">phone</span>
+                  <span className="text-gray-900 font-semibold">{user?.phone || 'N/A'}</span>
                 </div>
               </div>
             </div>

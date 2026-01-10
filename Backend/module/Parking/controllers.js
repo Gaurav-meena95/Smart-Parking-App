@@ -74,7 +74,7 @@ const startParking = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             }
@@ -130,7 +130,7 @@ const endParking = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             }
@@ -167,7 +167,7 @@ const getActiveParking = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             },
@@ -264,7 +264,7 @@ const getParkingById = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             }

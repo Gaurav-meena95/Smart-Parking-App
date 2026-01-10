@@ -22,7 +22,7 @@ const getAssignments = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             },
@@ -64,7 +64,7 @@ const getCurrentAssignment = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             },
@@ -137,7 +137,7 @@ const acceptAssignment = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             }
@@ -284,7 +284,7 @@ const completeTask = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        mobile: true
+                        phone: true
                     }
                 }
             }

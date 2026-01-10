@@ -1,18 +1,26 @@
-import React, { useState, useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { QrCode, MapPin, Clock, Car, Download, Share2 } from 'lucide-react'
 import { api } from '../../../services/api'
 
 export function UserTicket() {
-  const location = useLocation()
   const navigate = useNavigate()
   
   const [activeParking, setActiveParking] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [qrCodeURL, setQrCodeURL] = useState('')
 
   useEffect(() => {
     fetchActiveParking()
   }, [])
+
+  useEffect(() => {
+    if (activeParking) {
+      const qrData = generateQRCodeData(activeParking)
+      const qrURL = generateQRCodeURL(qrData)
+      setQrCodeURL(qrURL)
+    }
+  }, [activeParking])
 
   const fetchActiveParking = async () => {
     try {
@@ -39,6 +47,17 @@ export function UserTicket() {
     } catch (error) {
       alert('Failed to end parking session: ' + error.message)
     }
+  }
+
+  const handleDownloadTicket = () => {
+    if (!activeParking || !qrCodeURL) return
+    
+    const link = document.createElement('a')
+    link.href = qrCodeURL
+    link.download = `parking-ticket-${activeParking.ticketId}.png`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   const formatDate = (dateString) => {
@@ -80,8 +99,16 @@ export function UserTicket() {
                 <p className="text-gray-600">Digital Parking Ticket</p>
               </div>
               
-              <div className="w-64 h-64 lg:w-80 lg:h-80 mx-auto bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl flex items-center justify-center mb-8">
-                <QrCode className="w-32 h-32 lg:w-40 lg:h-40 text-indigo-600" />
+              <div className="w-64 h-64 lg:w-80 lg:h-80 mx-auto bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl flex items-center justify-center mb-8 overflow-hidden">
+                {qrCodeURL ? (
+                  <img 
+                    src={qrCodeURL} 
+                    alt="Parking Ticket QR Code"
+                    className="w-full h-full object-contain p-4"
+                  />
+                ) : (
+                  <QrCode className="w-32 h-32 lg:w-40 lg:h-40 text-indigo-600" />
+                )}
               </div>
               
               <div className="space-y-3 mb-6">

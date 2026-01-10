@@ -74,7 +74,6 @@ export function UserTicket() {
           </div>
         ) : activeParking ? (
           <div className="grid lg:grid-cols-2 gap-8">
-            {/* QR Code Card */}
             <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-100 text-center">
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Smart Parking System</h2>

@@ -26,7 +26,7 @@ export function QRScanner() {
   }, [isScanning])
 
   const handleBack = () => {
-    navigate('/');
+    navigate('/home');
   };
 
   const handleStartScan = () => {

@@ -46,7 +46,7 @@ export function Landing() {
                 <Car className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Smart Parking</h1>
+                <h1 className="text-lg lg:text-2xl font-bold text-gray-900">Smart Parking</h1>
                 <p className="text-sm text-gray-600 hidden lg:block">Intelligent Parking Solutions</p>
               </div>
             </div>
@@ -66,13 +66,13 @@ export function Landing() {
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => navigate('/login')}
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                className="text-gray-600 hover:text-gray-900 text-xs lg:text-sm font-medium transition-colors"
               >
                 Sign In
               </button>
               <button 
                 onClick={handleGetStarted}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white  text-xs lg:text-sm px-3 py-2 rounded-lg hover:shadow-lg transition-all font-medium"
               >
                 Get Started
               </button>
@@ -131,7 +131,7 @@ export function Landing() {
 
             <div className="relative">
               <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl p-8 lg:p-12">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid lg:grid-cols-2 grid-cols-(2,auto) gap-6">
                   <div className="bg-white rounded-2xl p-6 shadow-lg">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">

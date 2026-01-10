@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { QrCode, ArrowRight, Car, Calendar, MapPin, Clock } from 'lucide-react'
+import { QrCode, ArrowRight, Car, Calendar, MapPin, Clock, ParkingSquare } from 'lucide-react'
 import { api } from '../../../services/api'
 
 export function UserHome() {
@@ -64,37 +64,34 @@ export function UserHome() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-20">
+      <div className="bg-linear-to-r from-indigo-600  to-purple-800 text-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+              <h1 className="text-3xl lg:text-5xl font-bold mb-6">
                 Smart Parking Solutions
               </h1>
-              <p className="text-xl lg:text-2xl text-white/90 mb-8">
+              <p className="text-lg lg:text-xl text-whte/90 mb-8">
                 Welcome back, {user?.name || 'User'}! Find and reserve parking instantly with our intelligent system.
               </p>
               <div className="inline-block bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3">
                 <p className="text-lg font-medium">#1 in India – Premium Parking Solution</p>
               </div>
             </div>
-            
+
             <div className="flex justify-center lg:justify-end">
-              <div className="w-80 h-80 lg:w-96 lg:h-96 bg-white/20 rounded-3xl flex items-center justify-center backdrop-blur-sm">
-                <svg className="w-48 h-48 lg:w-56 lg:h-56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M20 9V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V9M20 9H4M20 9V17C20 18.1046 19.1046 19 18 19H6C4.89543 19 4 18.1046 4 17V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M8 15H8.01M16 15H16.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
+              <div className="w-40 h-40 lg:w-66 lg:h-66 bg-white/20 rounded-3xl flex items-center justify-center backdrop-blur-sm">
+                <ParkingSquare className='w-70 h-70' />
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
-            <button 
+            <button
               onClick={handleScanToPark}
               className="w-full bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-100 hover:shadow-2xl transition-all group"
             >
@@ -103,8 +100,8 @@ export function UserHome() {
                   <QrCode className="w-12 h-12 lg:w-14 lg:h-14 text-indigo-600" />
                 </div>
                 <div className="flex-1 text-left">
-                  <h3 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Scan to Park</h3>
-                  <p className="text-lg text-gray-600">Scan QR code at parking entrance</p>
+                  <h3 className="text-lg lg:text-3xl font-bold text-gray-900 mb-2">Scan to Park</h3>
+                  <p className="text-sm lg:text-lg text-gray-500">Scan QR code at parking entrance</p>
                 </div>
                 <ArrowRight className="w-8 h-8 text-gray-400 group-hover:text-indigo-600 transition-colors" />
               </div>
@@ -168,7 +165,7 @@ export function UserHome() {
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Recent Parking</h2>
             {recentParking.length > 0 && (
-              <button 
+              <button
                 onClick={handleViewAllHistory}
                 className="text-lg text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
               >
@@ -176,7 +173,7 @@ export function UserHome() {
               </button>
             )}
           </div>
-          
+
           {loading ? (
             <div className="text-center py-12">
               <p className="text-gray-600">Loading...</p>
@@ -237,7 +234,7 @@ export function UserHome() {
             <h3 className="text-xl font-semibold text-gray-900 mb-2">QR Code Parking</h3>
             <p className="text-gray-600">Scan and park instantly without any hassle</p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <ArrowRight className="w-8 h-8 text-green-600" />
@@ -245,7 +242,7 @@ export function UserHome() {
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Real-time Tracking</h3>
             <p className="text-gray-600">Track your parking duration and costs live</p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Car className="w-8 h-8 text-purple-600" />
@@ -253,7 +250,7 @@ export function UserHome() {
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Multiple Vehicles</h3>
             <p className="text-gray-600">Manage parking for all your vehicles</p>
           </div>
-          
+
           <div className="text-center">
             <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Calendar className="w-8 h-8 text-orange-600" />

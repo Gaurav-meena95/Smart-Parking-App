@@ -34,7 +34,7 @@ export function WebsiteHeader({ currentRole }) {
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
+
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
               <Car className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
@@ -45,7 +45,7 @@ export function WebsiteHeader({ currentRole }) {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
+          phoneDesktop Navigation 
           <nav className="hidden lg:flex items-center gap-8">
             {getNavItems().map((item) => {
               const isActive = location.pathname === item.path;
@@ -65,7 +65,7 @@ export function WebsiteHeader({ currentRole }) {
             })}
           </nav>
 
-          {/* Right side actions */}
+
           <div className="flex items-center gap-4">
             <button className="p-2 text-gray-600 cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all">
               <Bell className="w-5 h-5" />

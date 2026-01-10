@@ -41,7 +41,7 @@ export function Signup() {
   ];
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, phone } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -106,8 +106,8 @@ export function Signup() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100">
-      <div className="min-h-screen flex items-center justify-center px-6 py-12">
-        <div className="max-w-md w-full rounded-2xl p-8 shadow-xl border border-gray-100 ">
+      <div className="min-h-screen flex items-center justify-center lg:px-6 px-4 py-12">
+        <div className="max-w-md w-full rounded-2xl p-5  shadow-xl border border-gray-100 ">
 
           <button
             onClick={handleBack}
@@ -144,10 +144,10 @@ export function Signup() {
                     onClick={() => role.available && setSelectedRole(role.id)}
                     disabled={!role.available}
                     className={`p-4 rounded-xl border-2 transition-all text-left relative ${selectedRole === role.id && role.available
-                        ? `border-indigo-600 ${role.bgColor}`
-                        : role.available
-                          ? 'border-gray-200 hover:border-gray-300 bg-white'
-                          : 'border-gray-200 bg-gray-50 opacity-60 cursor-not-allowed'
+                      ? `border-indigo-600 ${role.bgColor}`
+                      : role.available
+                        ? 'border-gray-200 hover:border-gray-300 bg-white'
+                        : 'border-gray-200 bg-gray-50 opacity-60 cursor-not-allowed'
                       }`}
                   >
                     <div className="flex items-center gap-3">
@@ -219,9 +219,14 @@ export function Signup() {
                 </label>
                 <input
                   type="tel"
-                  name="phone"
                   value={formData.phone}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '')
+                    if (value.length <= 10) {
+                      setFormData({ ...formData, phone: value })
+                    }
+                  }}
+                  name="phone"
                   placeholder="+91 xxxxx xxxxx"
                   required
                   className="w-full px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"

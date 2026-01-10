@@ -20,32 +20,56 @@ export function DriverConsole() {
       setLoading(true);
       setError(null);
 
+      console.log('🚀 Starting fetchData...');
+
+      // Check if user is logged in
+      const token = localStorage.getItem('token');
+      console.log('Token exists:', !!token);
+
       // Fetch driver info
       const userResponse = await api.auth.getMe();
-      if (userResponse.user) {
-        setDriverName(userResponse.user.name);
+      console.log('User Response:', userResponse);
+      if (userResponse && userResponse.name) {
+        setDriverName(userResponse.name);
+        console.log('Driver name set:', userResponse.name);
       }
 
       // Fetch assignments, current task, and stats in parallel
-      const [assignmentsResponse, currentResponse, statsResponse] = await Promise.all([
-        api.driver.getAssignments(),
-        api.driver.getCurrentAssignment(),
-        api.driver.getStats()
-      ]);
+      console.log('🔄 Fetching driver data...');
+      
+      const assignmentsResponse = await api.driver.getAssignments();
+      console.log('Assignments Response:', assignmentsResponse);
+      
+      const currentResponse = await api.driver.getCurrentAssignment();
+      console.log('Current Response:', currentResponse);
+      
+      const statsResponse = await api.driver.getStats();
+      console.log('Stats Response:', statsResponse);
 
-      if (assignmentsResponse.success) {
+      if (assignmentsResponse && assignmentsResponse.success) {
+        console.log('Setting assignments:', assignmentsResponse.data);
         setAssignments(assignmentsResponse.data || []);
+      } else {
+        console.log('❌ Assignments response failed or no success flag');
       }
 
-      if (currentResponse.success && currentResponse.data) {
+      if (currentResponse && currentResponse.success && currentResponse.data) {
+        console.log('Setting current task:', currentResponse.data);
         setCurrentTask(currentResponse.data);
+      } else {
+        console.log('ℹ️ No current task');
       }
 
-      if (statsResponse.success) {
+      if (statsResponse && statsResponse.success) {
+        console.log('Setting stats:', statsResponse.data);
         setStats(statsResponse.data);
+      } else {
+        console.log('❌ Stats response failed or no success flag');
       }
+
+      console.log('✅ fetchData completed');
     } catch (err) {
-      console.error('Error fetching data:', err);
+      console.error('❌ Error fetching data:', err);
       setError(err.message || 'Failed to load data');
     } finally {
       setLoading(false);

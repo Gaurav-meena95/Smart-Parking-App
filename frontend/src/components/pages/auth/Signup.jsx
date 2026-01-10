@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Car, Eye, EyeOff, ArrowLeft, User, Shield, Truck, Settings, CheckCircle } from 'lucide-react'
+import { api } from '../../../services/api'
 
 export function Signup() {
   const navigate = useNavigate();
@@ -102,30 +103,18 @@ export function Signup() {
 
     setLoading(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          password: formData.password,
-          role: selectedRole,
-          mobile: formData.phone
-        })
+      const result = await api.auth.signup({
+        name: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        role: selectedRole,
+        mobile: formData.phone
       })
 
-      const data = await response.json()
-
-      if (response.ok) {
-        alert('Account created successfully! Please login.')
-        navigate('/login')
-      } else {
-        setError(data.message || 'Signup failed')
-      }
+      alert('Account created successfully! Please login.')
+      navigate('/login')
     } catch (err) {
-      setError('Network error. Please try again.')
+      setError(err.message || 'Signup failed')
     } finally {
       setLoading(false)
     }

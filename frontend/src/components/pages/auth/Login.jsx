@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Car, Eye, EyeOff, ArrowLeft, User, Shield, Truck, Settings } from 'lucide-react'
+import { api } from '../../../services/api'
 
 export function Login() {
   const navigate = useNavigate();
@@ -72,39 +73,29 @@ export function Login() {
 
     setLoading(true)
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          role: selectedRole
-        })
+      const result = await api.auth.login({
+        email: formData.email,
+        password: formData.password,
+        role: selectedRole
       })
 
-      const data = await response.json()
-
-      if (response.ok && data.token) {
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('refreshToken', data.refreshToken)
-        localStorage.setItem('user', JSON.stringify(data.user))
+      if (result.token) {
+        localStorage.setItem('token', result.token)
+        localStorage.setItem('refreshToken', result.refreshToken)
+        localStorage.setItem('user', JSON.stringify(result.user))
         
-        if (data.user.role === 'admin') {
+        if (result.user.role === 'admin') {
           navigate('/admin')
-        } else if (data.user.role === 'manager') {
+        } else if (result.user.role === 'manager') {
           navigate('/manager')
-        } else if (data.user.role === 'driver') {
+        } else if (result.user.role === 'driver') {
           navigate('/driver')
         } else {
           navigate('/home')
         }
-      } else {
-        setError(data.message || 'Login failed')
       }
     } catch (err) {
-      setError('Network error. Please try again.')
+      setError(err.message || 'Login failed')
     } finally {
       setLoading(false)
     }

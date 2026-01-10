@@ -44,6 +44,7 @@ A full-stack parking management system with separate interfaces for users, drive
       password: 'User@123',
       role: 'user'
    **Manager Login:**
+   
       email: 'manager@demo.com',
       password: 'Manager@123',
       role: 'manager'

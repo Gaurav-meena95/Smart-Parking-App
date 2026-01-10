@@ -49,7 +49,7 @@ export function VehicleSelection() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white">
+      <div className="bg-linear-to-r from-indigo-600  to-purple-800 text-white">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
           <div className="flex items-center gap-6">
             <button 

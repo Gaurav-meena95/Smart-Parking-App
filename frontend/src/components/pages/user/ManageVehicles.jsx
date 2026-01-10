@@ -77,7 +77,7 @@ export function ManageVehicles() {
         <div className="mb-8">
           <button
             onClick={() => navigate('/settings')}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+            className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             Back to Settings

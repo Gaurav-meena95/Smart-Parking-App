@@ -73,9 +73,11 @@ export function UserSettings() {
   return (
     <div className="min-h-screen bg-gray-50 overflow-y-auto pb-24 lg:pb-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="mb-6 sm:mb-8 lg:mb-12">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Settings</h1>
-          <p className="text-base sm:text-lg text-gray-600">Manage your account and preferences</p>
+        <div className='bg-linear-to-r from-indigo-600  to-purple-800  mb-8 lg:mb-12 rounded-2xl'>
+          <div className="mb-6 p-5 sm:mb-8 lg:mb-12">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">Settings</h1>
+            <p className="text-base sm:text-lg text-gray-300/70">Manage your account and preferences</p>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
@@ -86,7 +88,7 @@ export function UserSettings() {
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{user?.name || 'User'}</h3>
               <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">{user?.email || ''}</p>
-              <button 
+              <button
                 onClick={handleEditProfile}
                 className="w-full bg-indigo-600 text-white py-2.5 sm:py-3 rounded-lg hover:bg-indigo-700 transition-colors font-medium flex items-center justify-center gap-2"
               >
@@ -111,7 +113,7 @@ export function UserSettings() {
                 </div>
               </div>
             </button>
-            
+
             <button
               onClick={handleTransactionHistory}
               className="w-full bg-white rounded-lg p-4 sm:p-6 shadow border border-gray-200 hover:shadow-md transition-all text-left"
@@ -126,7 +128,7 @@ export function UserSettings() {
                 </div>
               </div>
             </button>
-            
+
             <button
               onClick={handleHelpSupport}
               className="w-full bg-white rounded-lg p-4 sm:p-6 shadow border border-gray-200 hover:shadow-md transition-all text-left"
@@ -141,7 +143,7 @@ export function UserSettings() {
                 </div>
               </div>
             </button>
-            
+
             <button
               onClick={handleFAQ}
               className="w-full bg-white rounded-lg p-4 sm:p-6 shadow border border-gray-200 hover:shadow-md transition-all text-left"
@@ -162,7 +164,7 @@ export function UserSettings() {
         <div className="mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-gray-200">
           <button
             onClick={handleLogout}
-            className="w-full bg-red-50 hover:bg-red-100 text-red-600 py-3 sm:py-4 rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
+            className="w-full bg-red-100 hover:bg-red-200 text-red-600 py-3 sm:py-4 rounded-lg transition-colors font-medium flex items-center justify-center gap-2"
           >
             <LogOut className="w-5 h-5" />
             Logout

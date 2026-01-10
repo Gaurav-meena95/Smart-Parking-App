@@ -73,7 +73,7 @@ export function QRScanner() {
       <div className="max-w-4xl mx-auto px-6">
 
 
-        <div className="py-8 flex items-center gap-4">
+        <div className="absolute top-6 left-6 py-8 flex items-center gap-4">
           <button
             onClick={() => navigate('/home')}
             className="p-3 hover:bg-white/10 rounded-lg"

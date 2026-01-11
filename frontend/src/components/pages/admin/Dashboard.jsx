@@ -130,9 +130,9 @@ export function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-8 overflow-y-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="bg-indigo-600 text-white px-6 sm:px-8 py-8 sm:py-12 rounded-lg mb-6 sm:mb-8">
-          <div className="max-w-4xl">
+      <div className="max-w-7xl mx-auto p-5">
+        <div className="bg-indigo-600 text-white px-6 sm:px-8  sm:py-12 rounded-lg mb-6 sm:mb-8">
+          <div className="pb-3">
             <div className="flex justify-between  mb-6 ">
               <div className="">
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Super Admin</h1>
@@ -140,7 +140,7 @@ export function AdminDashboard() {
               </div>
               <button
                 onClick={handleLogout}
-                className="self-end sm:self-auto p-2 sm:p-3 hover:bg-white/10 rounded-lg transition-colors cursor-pointer flex items-center justify-center"
+                className="self-end p-3 hover:bg-white/10 rounded-lg transition-colors cursor-pointer flex items-center justify-center"
                 title="Logout"
               >
                 <LogOut className="w-5 h-5 sm:w-6 sm:h-6" />

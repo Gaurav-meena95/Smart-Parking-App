@@ -6,8 +6,8 @@ import { api } from '../../../services/api'
 export function UserHome() {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
-  const [activeParking, setActiveParking] = useState(null)
-  const [recentParking, setRecentParking] = useState([])
+  const [activeparking, setActiveparking] = useState(null)
+  const [recentparking, setRecentparking] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -15,17 +15,17 @@ export function UserHome() {
     if (userData) {
       setUser(JSON.parse(userData))
     }
-    fetchParkingData()
+    fetchparkingData()
   }, [])
 
-  const fetchParkingData = async () => {
+  const fetchparkingData = async () => {
     try {
       const [activeData, historyData] = await Promise.all([
         api.parking.getActive(),
         api.parking.getHistory()
       ])
-      setActiveParking(activeData.data)
-      setRecentParking(historyData.data?.slice(0, 3) || [])
+      setActiveparking(activeData.data)
+      setRecentparking(historyData.data?.slice(0, 3) || [])
     } catch (error) {
       console.error('Error fetching parking data:', error)
     } finally {
@@ -33,7 +33,7 @@ export function UserHome() {
     }
   }
 
-  const handleScanToPark = () => {
+  const handleScanTopark = () => {
     navigate('/qr-scanner')
   }
 
@@ -41,7 +41,7 @@ export function UserHome() {
     navigate('/history')
   }
 
-  const handleParkingCardClick = (parking) => {
+  const handleparkingCardClick = (parking) => {
     navigate('/ticket', { state: { parking } })
   }
 
@@ -69,13 +69,13 @@ export function UserHome() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h1 className="text-3xl lg:text-5xl font-bold mb-6">
-                Smart Parking Solutions
+                Smart parking Solutions
               </h1>
               <p className="text-lg lg:text-xl text-whte/90 mb-8">
                 Welcome back, {user?.name || 'User'}! Find and reserve parking instantly with our intelligent system.
               </p>
               <div className="inline-block bg-white/20 backdrop-blur-sm rounded-xl px-6 py-3">
-                <p className="text-lg font-medium">#1 in India – Premium Parking Solution</p>
+                <p className="text-lg font-medium">#1 in India – Premium parking Solution</p>
               </div>
             </div>
 
@@ -92,7 +92,7 @@ export function UserHome() {
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-6">
             <button
-              onClick={handleScanToPark}
+              onClick={handleScanTopark}
               className="w-full bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-100 hover:shadow-2xl transition-all group"
             >
               <div className="flex items-center gap-6 lg:gap-8">
@@ -100,37 +100,37 @@ export function UserHome() {
                   <QrCode className="w-12 h-12 lg:w-14 lg:h-14 text-indigo-600" />
                 </div>
                 <div className="flex-1 text-left">
-                  <h3 className="text-lg lg:text-3xl font-bold text-gray-900 mb-2">Scan to Park</h3>
+                  <h3 className="text-lg lg:text-3xl font-bold text-gray-900 mb-2">Scan to park</h3>
                   <p className="text-sm lg:text-lg text-gray-500">Scan QR code at parking entrance</p>
                 </div>
                 <ArrowRight className="w-8 h-8 text-gray-400 group-hover:text-indigo-600 transition-colors" />
               </div>
             </button>
 
-            {activeParking && (
+            {activeparking && (
               <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-                <h4 className="text-lg font-semibold text-gray-900 mb-4">Active Parking</h4>
+                <h4 className="text-lg font-semibold text-gray-900 mb-4">Active parking</h4>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <MapPin className="w-5 h-5 text-indigo-600" />
-                      <span className="font-medium text-gray-900">{activeParking.location}</span>
+                      <span className="font-medium text-gray-900">{activeparking.location}</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <Clock className="w-5 h-5 text-gray-600" />
-                      <span className="text-gray-600">{formatTime(activeParking.entryTime)}</span>
+                      <span className="text-gray-600">{formatTime(activeparking.entryTime)}</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Vehicle</span>
-                    <span className="font-semibold text-gray-900">{activeParking.vehicle.vehicleNumber}</span>
+                    <span className="font-semibold text-gray-900">{activeparking.vehicle.vehicleNumber}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Parked</span>
+                    <span className="text-gray-600">parked</span>
                     <span className="font-semibold text-indigo-600">
-                      {formatDuration(activeParking.duration?.hours || 0, activeParking.duration?.minutes || 0)}
+                      {formatDuration(activeparking.duration?.hours || 0, activeparking.duration?.minutes || 0)}
                     </span>
                   </div>
                   <button
@@ -149,12 +149,12 @@ export function UserHome() {
               <h4 className="text-lg font-semibold text-gray-900 mb-4">Quick Stats</h4>
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Parkings</span>
-                  <span className="font-semibold text-gray-900">{recentParking.length}</span>
+                  <span className="text-gray-600">Total parkings</span>
+                  <span className="font-semibold text-gray-900">{recentparking.length}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Active</span>
-                  <span className="font-semibold text-green-600">{activeParking ? '1' : '0'}</span>
+                  <span className="font-semibold text-green-600">{activeparking ? '1' : '0'}</span>
                 </div>
               </div>
             </div>
@@ -163,8 +163,8 @@ export function UserHome() {
 
         <div className="mt-16">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Recent Parking</h2>
-            {recentParking.length > 0 && (
+            <h2 className="text-3xl font-bold text-gray-900">Recent parking</h2>
+            {recentparking.length > 0 && (
               <button
                 onClick={handleViewAllHistory}
                 className="text-lg text-indigo-600 hover:text-indigo-800 transition-colors font-medium"
@@ -178,17 +178,17 @@ export function UserHome() {
             <div className="text-center py-12">
               <p className="text-gray-600">Loading...</p>
             </div>
-          ) : recentParking.length === 0 ? (
+          ) : recentparking.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-600 text-lg">No recent parking history</p>
               <p className="text-gray-500 mt-2">Start parking to see your history here</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recentParking.map((parking) => (
+              {recentparking.map((parking) => (
                 <div
                   key={parking.id}
-                  onClick={() => handleParkingCardClick(parking)}
+                  onClick={() => handleparkingCardClick(parking)}
                   className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all cursor-pointer"
                 >
                   <div className="flex items-start justify-between mb-4">
@@ -231,7 +231,7 @@ export function UserHome() {
             <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <QrCode className="w-8 h-8 text-blue-600" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">QR Code Parking</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">QR Code parking</h3>
             <p className="text-gray-600">Scan and park instantly without any hassle</p>
           </div>
 

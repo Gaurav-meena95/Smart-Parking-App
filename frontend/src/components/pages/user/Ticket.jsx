@@ -6,19 +6,19 @@ import { api } from '../../../services/api'
 export function UserTicket() {
   const navigate = useNavigate()
 
-  const [activeParking, setActiveParking] = useState(null)
+  const [activeparking, setActiveparking] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchActiveParking()
+    fetchActiveparking()
   }, [])
 
 
 
-  const fetchActiveParking = async () => {
+  const fetchActiveparking = async () => {
     try {
       const data = await api.parking.getActive()
-      setActiveParking(data.data)
+      setActiveparking(data.data)
     } catch (error) {
       console.error('Error fetching active parking:', error)
     } finally {
@@ -26,19 +26,19 @@ export function UserTicket() {
     }
   }
 
-  const handleStartParking = () => {
+  const handleStartparking = () => {
     navigate('/qr-scanner')
   }
 
-  const handleEndParking = async () => {
-    if (!activeParking) return
+  const handleEndparking = async () => {
+    if (!activeparking) return
 
     try {
-      await api.parking.end(activeParking.id)
-      alert('Parking session ended successfully!')
-      navigate('/history')
+      await api.parking.requestRetrieval(activeparking.id)
+      alert('Retrieval request submitted! A driver will be assigned to retrieve your vehicle.')
+      navigate('/home')
     } catch (error) {
-      alert('Failed to end parking session: ' + error.message)
+      alert('Failed to request retrieval: ' + error.message)
     }
   }
 
@@ -66,9 +66,9 @@ export function UserTicket() {
       <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
         <div className='bg-linear-to-r from-indigo-600  to-purple-800  mb-8 lg:mb-12 rounded-2xl'>
           <div className="mb-8 p-5 lg:mb-12">
-            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">Parking Ticket</h1>
+            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">parking Ticket</h1>
             <p className="text-lg text-gray-300/70">
-              {activeParking ? 'Active Parking Session' : 'No active parking session'}
+              {activeparking ? 'Active parking Session' : 'No active parking session'}
             </p>
           </div>
         </div>
@@ -77,12 +77,12 @@ export function UserTicket() {
           <div className="text-center py-12">
             <p className="text-gray-600">Loading...</p>
           </div>
-        ) : activeParking ? (
+        ) : activeparking ? (
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-xl border border-gray-100 text-center">
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">Smart Parking System</h2>
-                <p className="text-gray-600">Digital Parking Ticket</p>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Smart parking System</h2>
+                <p className="text-gray-600">Digital parking Ticket</p>
               </div>
 
               <div className="w-64 h-64 lg:w-80 lg:h-80 mx-auto bg-gradient-to-br from-indigo-100 to-purple-100 rounded-3xl flex items-center justify-center mb-8 overflow-hidden">
@@ -107,16 +107,16 @@ export function UserTicket() {
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <div>
-                    <p className="text-green-800 font-medium">Active Parking Session</p>
-                    <p className="text-sm text-green-600">Started at {formatTime(activeParking.entryTime)}</p>
+                    <p className="text-green-800 font-medium">Active parking Session</p>
+                    <p className="text-sm text-green-600">Started at {formatTime(activeparking.entryTime)}</p>
                   </div>
                 </div>
               </div>
               <button
-                onClick={handleEndParking}
+                onClick={handleEndparking}
                 className="w-full bg-gradient-to-r from-red-600 to-red-500 text-white py-4 rounded-xl hover:shadow-lg transition-all font-medium"
               >
-                Get My Car
+                Request Vehicle Retrieval
               </button>
             </div>
 
@@ -130,14 +130,14 @@ export function UserTicket() {
                       <MapPin className="w-5 h-5" />
                       <span className="font-medium">Location</span>
                     </div>
-                    <span className="text-gray-900 font-medium">{activeParking.location}</span>
+                    <span className="text-gray-900 font-medium">{activeparking.location}</span>
                   </div>
 
                   <div className="flex items-center justify-between py-3 border-b border-gray-100">
                     <div className="flex items-center gap-3 text-gray-600">
                       <span className="font-medium">Ticket ID</span>
                     </div>
-                    <span className="text-gray-900 font-medium">{activeParking.ticketId}</span>
+                    <span className="text-gray-900 font-medium">{activeparking.ticketId}</span>
                   </div>
 
                   <div className="flex items-center justify-between py-3 border-b border-gray-100">
@@ -145,7 +145,7 @@ export function UserTicket() {
                       <Car className="w-5 h-5" />
                       <span className="font-medium">Vehicle</span>
                     </div>
-                    <span className="text-gray-900 font-medium">{activeParking.vehicle.vehicleName} - {activeParking.vehicle.vehicleNumber}</span>
+                    <span className="text-gray-900 font-medium">{activeparking.vehicle.vehicleName} - {activeparking.vehicle.vehicleNumber}</span>
                   </div>
 
                   <div className="flex items-center justify-between py-3 border-b border-gray-100">
@@ -153,7 +153,7 @@ export function UserTicket() {
                       <MapPin className="w-5 h-5" />
                       <span className="font-medium">Address</span>
                     </div>
-                    <span className="text-gray-900 font-medium text-right">{activeParking.address}</span>
+                    <span className="text-gray-900 font-medium text-right">{activeparking.address}</span>
                   </div>
 
                   <div className="flex items-center justify-between py-3">
@@ -161,7 +161,7 @@ export function UserTicket() {
                       <Clock className="w-5 h-5" />
                       <span className="font-medium">Entry Time</span>
                     </div>
-                    <span className="text-gray-900 font-medium">{formatDate(activeParking.entryTime)}, {formatTime(activeParking.entryTime)}</span>
+                    <span className="text-gray-900 font-medium">{formatDate(activeparking.entryTime)}, {formatTime(activeparking.entryTime)}</span>
                   </div>
                 </div>
               </div>
@@ -173,18 +173,18 @@ export function UserTicket() {
                   <div className="flex items-center justify-between">
                     <span className="text-gray-600">Duration</span>
                     <span className="text-2xl font-bold text-indigo-600">
-                      {formatDuration(activeParking.duration?.hours || 0, activeParking.duration?.minutes || 0)}
+                      {formatDuration(activeparking.duration?.hours || 0, activeparking.duration?.minutes || 0)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                     <span className="text-gray-600">Amount Paid</span>
-                    <span className="text-2xl font-bold text-green-600">₹{activeParking.totalAmount}</span>
+                    <span className="text-2xl font-bold text-green-600">₹{activeparking.totalAmount}</span>
                   </div>
                 </div>
               </div>
 
               <div className="bg-indigo-50 rounded-2xl p-6 border border-indigo-200 text-center">
-                <p className="text-sm text-indigo-800">Powered by Smart Parking</p>
+                <p className="text-sm text-indigo-800">Powered by Smart parking</p>
               </div>
             </div>
           </div>
@@ -194,15 +194,15 @@ export function UserTicket() {
               <div className="w-64 h-64 lg:w-80 lg:h-80 mx-auto bg-gray-100 rounded-3xl flex items-center justify-center mb-8">
                 <QrCode className="w-32 h-32 lg:w-40 lg:h-40 text-gray-400" />
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">No Active Parking Session</h3>
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">No Active parking Session</h3>
               <p className="text-xl text-gray-600 mb-8">Start a new parking session to generate your QR code</p>
 
 
               <button
-                onClick={handleStartParking}
+                onClick={handleStartparking}
                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:shadow-lg transition-all font-medium text-lg"
               >
-                Start Parking Session
+                Start parking Session
               </button>
             </div>
 

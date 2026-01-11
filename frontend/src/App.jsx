@@ -8,7 +8,7 @@ import { UserHome } from './components/pages/user/Home'
 import { QRScanner } from './components/pages/user/QRScanner'
 import { VehicleSelection } from './components/pages/user/VehicleSelection'
 import { AddVehicle } from './components/pages/user/AddVehicle'
-import { ConfirmParking } from './components/pages/user/ParkingConfirm'
+import { Confirmparking } from './components/pages/user/parkingConfirm'
 import { UserTicket } from './components/pages/user/Ticket'
 import { UserHistory } from './components/pages/user/History'
 import { UserSettings } from './components/pages/user/Setting'
@@ -47,7 +47,7 @@ export default function App() {
                     <Route path="/qr-scanner" element={<ProtectedRoute><QRScanner /></ProtectedRoute>} />
                     <Route path="/vehicle-selection" element={<ProtectedRoute><VehicleSelection /></ProtectedRoute>} />
                     <Route path="/add-vehicle" element={<ProtectedRoute><AddVehicle /></ProtectedRoute>} />
-                    <Route path="/confirm-parking" element={<ProtectedRoute><ConfirmParking /></ProtectedRoute>} />
+                    <Route path="/confirm-parking" element={<ProtectedRoute><Confirmparking /></ProtectedRoute>} />
                     <Route path="/ticket" element={<ProtectedRoute><UserTicket /></ProtectedRoute>} />
                     <Route path="/history" element={<ProtectedRoute><UserHistory /></ProtectedRoute>} />
                     <Route path="/settings" element={<ProtectedRoute><UserSettings /></ProtectedRoute>} />

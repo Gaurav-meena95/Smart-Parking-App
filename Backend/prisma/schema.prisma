@@ -19,8 +19,8 @@ model User {
   createdAt        DateTime        @default(now())
   updatedAt        DateTime        @updatedAt
   vehicles         Vehicle[]
-  parkings         Parking[]
-  assignedParkings Parking[]       @relation("AssignedDriver")
+  parkings         parking[]
+  assignedparkings parking[]       @relation("AssignedDriver")
 
   @@map("users")
 }
@@ -44,12 +44,12 @@ model Vehicle {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   owner         User?       @relation(fields: [ownerId], references: [id])
-  parkings      Parking[]
+  parkings      parking[]
 
   @@map("vehicles")
 }
 
-model Parking {
+model parking {
   id               String        @id @default(cuid())
   ticketId         String        @unique
   userId           String
@@ -58,7 +58,7 @@ model Parking {
   location         String
   address          String
   parkingSlot      String?
-  taskType         TaskType      @default(PARK)
+  taskType         TaskType      @default(park)
   assignedAt       DateTime?
   entryTime        DateTime
   exitTime         DateTime?
@@ -67,7 +67,7 @@ model Parking {
   gst              Float         @default(20)
   totalAmount      Float
   paymentMethod    String
-  status           ParkingStatus @default(active)
+  status           parkingStatus @default(active)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
   user             User          @relation(fields: [userId], references: [id])
@@ -78,13 +78,13 @@ model Parking {
 }
 
 enum TaskType {
-  PARK
-  RETRIEVE
+  park
+  Retrieve
 
   @@map("task_types")
 }
 
-enum ParkingStatus {
+enum parkingStatus {
   pending
   active
   in_progress

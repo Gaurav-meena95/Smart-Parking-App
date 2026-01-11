@@ -53,6 +53,7 @@ const login = async (req, res) => {
         if (value) {
             return res.status(403).json({ message: `Check missing value ${value}` })
         }
+        console.log(email,password,role)
         const existing = await prisma.user.findFirst({ 
             where: { 
                 email, 

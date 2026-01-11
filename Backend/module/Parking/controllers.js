@@ -11,7 +11,7 @@ const generateTicketId = () => {
     return `TK-${year}-${month}-${day}-${hours}${minutes}`
 }
 
-const startParking = async (req, res) => {
+const startparking = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
@@ -35,7 +35,7 @@ const startParking = async (req, res) => {
             return res.status(404).json({ message: 'Vehicle not found' })
         }
 
-        const activeParking = await prisma.parking.findFirst({
+        const activeparking = await prisma.parking.findFirst({
             where: {
                 userId: req.user.id,
                 vehicleId: vehicleId,
@@ -43,7 +43,7 @@ const startParking = async (req, res) => {
             }
         })
 
-        if (activeParking) {
+        if (activeparking) {
             return res.status(400).json({ message: 'Vehicle already has an active parking session' })
         }
 
@@ -65,7 +65,7 @@ const startParking = async (req, res) => {
                 gst,
                 totalAmount,
                 paymentMethod,
-                status: 'active'
+                status: 'pending'
             },
             include: {
                 vehicle: true,
@@ -81,7 +81,7 @@ const startParking = async (req, res) => {
         })
 
         res.status(201).json({
-            message: 'Parking started successfully',
+            message: 'parking started successfully',
             data: parking
         })
     } catch (error) {
@@ -90,7 +90,7 @@ const startParking = async (req, res) => {
     }
 }
 
-const endParking = async (req, res) => {
+const endparking = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
@@ -102,7 +102,7 @@ const endParking = async (req, res) => {
             where: {
                 id: parkingId,
                 userId: req.user.id,
-                status: 'active'
+                status: { in: ['active', 'pending', 'in_progress'] }
             }
         })
 
@@ -117,7 +117,7 @@ const endParking = async (req, res) => {
         const hours = Math.floor(durationMinutes / 60)
         const minutes = durationMinutes % 60
 
-        const updatedParking = await prisma.parking.update({
+        const updatedparking = await prisma.parking.update({
             where: { id: parkingId },
             data: {
                 exitTime,
@@ -137,9 +137,9 @@ const endParking = async (req, res) => {
         })
 
         res.status(200).json({
-            message: 'Parking ended successfully',
+            message: 'parking ended successfully',
             data: {
-                ...updatedParking,
+                ...updatedparking,
                 duration: { hours, minutes, totalMinutes: durationMinutes }
             }
         })
@@ -149,7 +149,7 @@ const endParking = async (req, res) => {
     }
 }
 
-const getActiveParking = async (req, res) => {
+const getActiveparking = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
@@ -158,7 +158,7 @@ const getActiveParking = async (req, res) => {
         const parking = await prisma.parking.findFirst({
             where: {
                 userId: req.user.id,
-                status: 'active'
+                status: { in: ['active', 'pending', 'in_progress'] }
             },
             include: {
                 vehicle: true,
@@ -167,7 +167,6 @@ const getActiveParking = async (req, res) => {
                         id: true,
                         name: true,
                         email: true,
-                        phone: true
                     }
                 }
             },
@@ -202,7 +201,7 @@ const getActiveParking = async (req, res) => {
     }
 }
 
-const getParkingHistory = async (req, res) => {
+const getparkingHistory = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
@@ -221,7 +220,7 @@ const getParkingHistory = async (req, res) => {
             }
         })
 
-        const formattedParkings = parkings.map(parking => {
+        const formattedparkings = parkings.map(parking => {
             const entryTime = new Date(parking.entryTime)
             const exitTime = parking.exitTime ? new Date(parking.exitTime) : null
             const durationMinutes = exitTime ? Math.floor((exitTime - entryTime) / (1000 * 60)) : 0
@@ -236,7 +235,7 @@ const getParkingHistory = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            data: formattedParkings
+            data: formattedparkings
         })
     } catch (error) {
         console.log(error)
@@ -244,7 +243,7 @@ const getParkingHistory = async (req, res) => {
     }
 }
 
-const getParkingById = async (req, res) => {
+const getparkingById = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: 'Unauthorized' })
@@ -271,7 +270,7 @@ const getParkingById = async (req, res) => {
         })
 
         if (!parking) {
-            return res.status(404).json({ message: 'Parking not found' })
+            return res.status(404).json({ message: 'parking not found' })
         }
 
         const entryTime = new Date(parking.entryTime)
@@ -294,9 +293,9 @@ const getParkingById = async (req, res) => {
 }
 
 module.exports = {
-    startParking,
-    endParking,
-    getActiveParking,
-    getParkingHistory,
-    getParkingById
+    startparking,
+    endparking,
+    getActiveparking,
+    getparkingHistory,
+    getparkingById
 }

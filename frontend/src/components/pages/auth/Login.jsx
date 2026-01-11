@@ -138,7 +138,7 @@ export function Login() {
               <div className="w-12 h-12 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
                 <Car className="w-7 h-7 text-white" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">Smart Parking</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Smart parking</h1>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
             <p className="text-gray-600">Sign in to your account to continue</p>

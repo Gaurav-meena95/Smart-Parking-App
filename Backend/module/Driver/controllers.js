@@ -125,7 +125,7 @@ const acceptAssignment = async (req, res) => {
             return res.status(404).json({ message: 'Assignment not found or already accepted' })
         }
 
-        const updatedParking = await prisma.parking.update({
+        const updatedparking = await prisma.parking.update({
             where: { id: parkingId },
             data: {
                 status: 'in_progress'
@@ -146,7 +146,7 @@ const acceptAssignment = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Assignment accepted successfully',
-            data: updatedParking
+            data: updatedparking
         })
     } catch (error) {
         console.log(error)
@@ -184,7 +184,7 @@ const rejectAssignment = async (req, res) => {
         }
 
         
-        const updatedParking = await prisma.parking.update({
+        const updatedparking = await prisma.parking.update({
             where: { id: parkingId },
             data: {
                 assignedDriverId: null,
@@ -271,7 +271,7 @@ const completeTask = async (req, res) => {
             return res.status(404).json({ message: 'Active assignment not found' })
         }
 
-        const updatedParking = await prisma.parking.update({
+        const updatedparking = await prisma.parking.update({
             where: { id: parkingId },
             data: {
                 status: 'completed',
@@ -293,7 +293,7 @@ const completeTask = async (req, res) => {
         res.status(200).json({
             success: true,
             message: 'Task completed successfully',
-            data: updatedParking
+            data: updatedparking
         })
     } catch (error) {
         console.log(error)
@@ -314,11 +314,11 @@ const getStats = async (req, res) => {
         const today = new Date()
         today.setHours(0, 0, 0, 0)
 
-        const todayParked = await prisma.parking.count({
+        const todayparked = await prisma.parking.count({
             where: {
                 assignedDriverId: req.user.id,
                 status: 'completed',
-                taskType: 'PARK',
+                taskType: 'park',
                 updatedAt: {
                     gte: today
                 }
@@ -329,7 +329,7 @@ const getStats = async (req, res) => {
             where: {
                 assignedDriverId: req.user.id,
                 status: 'completed',
-                taskType: 'RETRIEVE',
+                taskType: 'Retrieve',
                 updatedAt: {
                     gte: today
                 }
@@ -347,7 +347,7 @@ const getStats = async (req, res) => {
             success: true,
             data: {
                 today: {
-                    parked: todayParked,
+                    parked: todayparked,
                     retrieved: todayRetrieved
                 },
                 newAssignments

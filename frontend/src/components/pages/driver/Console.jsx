@@ -181,7 +181,7 @@ export function DriverConsole() {
               <p className="text-3xl font-bold">{stats.newAssignments}</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center">
-              <p className="text-white/80 text-sm mb-1">Parked</p>
+              <p className="text-white/80 text-sm mb-1">parked</p>
               <p className="text-3xl font-bold">{stats.today.parked}</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center">
@@ -214,11 +214,11 @@ export function DriverConsole() {
                 <div key={assignment.id} className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl font-semibold text-gray-900">Assignment</h3>
-                    <span className={`px-4 py-2 rounded-full text-sm font-medium ${assignment.taskType === 'RETRIEVE'
+                    <span className={`px-4 py-2 rounded-full text-sm font-medium ${assignment.taskType === 'Retrieve'
                         ? 'bg-orange-50 text-orange-700'
                         : 'bg-green-50 text-green-700'
                       }`}>
-                      {assignment.taskType === 'RETRIEVE' ? 'Retrieve Vehicle' : 'Park Vehicle'}
+                      {assignment.taskType === 'Retrieve' ? 'Retrieve Vehicle' : 'park Vehicle'}
                     </span>
                   </div>
 
@@ -242,7 +242,7 @@ export function DriverConsole() {
                         <p className="text-gray-600 text-sm">{assignment.address}</p>
                         {assignment.parkingSlot && (
                           <p className="text-indigo-600 font-medium mt-1">
-                            {assignment.taskType === 'RETRIEVE' ? 'Retrieve from' : 'Park at'}: {assignment.parkingSlot}
+                            {assignment.taskType === 'Retrieve' ? 'Retrieve from' : 'park at'}: {assignment.parkingSlot}
                           </p>
                         )}
                       </div>
@@ -289,7 +289,7 @@ export function DriverConsole() {
                       <Loader2 className="w-12 h-12 text-blue-600 animate-spin" />
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                      {currentTask.taskType === 'PARK' ? 'Parking' : 'Retrieval'} in Progress...
+                      {currentTask.taskType === 'park' ? 'parking' : 'Retrieval'} in Progress...
                     </h3>
                     <p className="text-lg text-gray-900 font-medium mb-1">{currentTask.vehicle.vehicleName}</p>
                     <p className="text-gray-600 mb-6">{currentTask.vehicle.vehicleNumber}</p>
@@ -314,7 +314,7 @@ export function DriverConsole() {
                       <div>
                         <p className="text-gray-600 mb-1 text-sm">Task Type</p>
                         <p className="text-lg font-semibold text-gray-900">
-                          {currentTask.taskType === 'RETRIEVE' ? 'Retrieve Vehicle' : 'Park Vehicle'}
+                          {currentTask.taskType === 'Retrieve' ? 'Retrieve Vehicle' : 'park Vehicle'}
                         </p>
                       </div>
 
@@ -335,7 +335,7 @@ export function DriverConsole() {
                         <p className="text-gray-600 text-sm">{currentTask.address}</p>
                         {currentTask.parkingSlot && (
                           <p className="text-indigo-600 font-medium mt-1">
-                            {currentTask.taskType === 'RETRIEVE' ? 'Retrieve from' : 'Park at'}: {currentTask.parkingSlot}
+                            {currentTask.taskType === 'Retrieve' ? 'Retrieve from' : 'park at'}: {currentTask.parkingSlot}
                           </p>
                         )}
                       </div>
@@ -350,7 +350,7 @@ export function DriverConsole() {
                       onClick={handleStartTask}
                       className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-medium hover:shadow-lg transition-all"
                     >
-                      {currentTask.taskType === 'PARK' ? 'Start Parking' : 'Start Retrieval'}
+                      {currentTask.taskType === 'park' ? 'Start parking' : 'Start Retrieval'}
                     </button>
                   </div>
                 )

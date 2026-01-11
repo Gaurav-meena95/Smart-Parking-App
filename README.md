@@ -1,4 +1,4 @@
-# Smart Parking System
+# Smart parking System
 
 A full-stack parking management system with separate interfaces for users, drivers, managers, and admins.
 

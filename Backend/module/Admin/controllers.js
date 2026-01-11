@@ -14,7 +14,7 @@ const getDashboardStats = async (req, res) => {
         const yesterday = new Date(today)
         yesterday.setDate(yesterday.getDate() - 1)
 
-        const todayParkings = await prisma.parking.findMany({
+        const todayparkings = await prisma.parking.findMany({
             where: {
                 entryTime: {
                     gte: today,
@@ -23,7 +23,7 @@ const getDashboardStats = async (req, res) => {
             }
         })
 
-        const yesterdayParkings = await prisma.parking.findMany({
+        const yesterdayparkings = await prisma.parking.findMany({
             where: {
                 entryTime: {
                     gte: yesterday,
@@ -32,31 +32,31 @@ const getDashboardStats = async (req, res) => {
             }
         })
 
-        const totalParkings = await prisma.parking.findMany({
+        const totalparkings = await prisma.parking.findMany({
             where: {
                 status: 'completed'
             }
         })
 
-        const activeParkings = await prisma.parking.findMany({
+        const activeparkings = await prisma.parking.findMany({
             where: {
                 status: 'active'
             }
         })
 
-        const todayTickets = todayParkings.length
-        const yesterdayTickets = yesterdayParkings.length
+        const todayTickets = todayparkings.length
+        const yesterdayTickets = yesterdayparkings.length
         const ticketsGrowth = yesterdayTickets > 0
             ? ((todayTickets - yesterdayTickets) / yesterdayTickets * 100).toFixed(1)
             : todayTickets > 0 ? 100 : 0
 
-        const todayCollection = todayParkings.reduce((sum, p) => sum + p.totalAmount, 0)
-        const yesterdayCollection = yesterdayParkings.reduce((sum, p) => sum + p.totalAmount, 0)
+        const todayCollection = todayparkings.reduce((sum, p) => sum + p.totalAmount, 0)
+        const yesterdayCollection = yesterdayparkings.reduce((sum, p) => sum + p.totalAmount, 0)
         const collectionGrowth = yesterdayCollection > 0
             ? ((todayCollection - yesterdayCollection) / yesterdayCollection * 100).toFixed(1)
             : todayCollection > 0 ? 100 : 0
 
-        const totalCollection = totalParkings.reduce((sum, p) => sum + p.totalAmount, 0)
+        const totalCollection = totalparkings.reduce((sum, p) => sum + p.totalAmount, 0)
 
         const locationGroups = await prisma.parking.groupBy({
             by: ['location'],
@@ -69,7 +69,7 @@ const getDashboardStats = async (req, res) => {
         })
 
         const sites = await Promise.all(locationGroups.map(async (loc, index) => {
-            const firstParking = await prisma.parking.findFirst({
+            const firstparking = await prisma.parking.findFirst({
                 where: { location: loc.location },
                 select: { address: true }
             })
@@ -77,7 +77,7 @@ const getDashboardStats = async (req, res) => {
             return {
                 id: `site-${index + 1}`,
                 name: loc.location,
-                address: firstParking?.address || '',
+                address: firstparking?.address || '',
                 tickets: loc._count.id,
                 collection: loc._sum.totalAmount || 0
             }
@@ -93,9 +93,9 @@ const getDashboardStats = async (req, res) => {
                     collectionGrowth: parseFloat(collectionGrowth)
                 },
                 overall: {
-                    totalTickets: totalParkings.length,
+                    totalTickets: totalparkings.length,
                     totalCollection: totalCollection,
-                    activeParking: activeParkings.length
+                    activeparking: activeparkings.length
                 },
                 sites: sites
             }
@@ -208,7 +208,7 @@ const rejectDriver = async (req, res) => {
     }
 }
 
-const getAllParkings = async (req, res) => {
+const getAllparkings = async (req, res) => {
     try {
         if (!req.user || req.user.role !== 'admin') {
             return res.status(403).json({ message: 'Admin access required' })
@@ -249,7 +249,7 @@ const getAllParkings = async (req, res) => {
 module.exports = {
     getDashboardStats,
     getAllUsers,
-    getAllParkings,
+    getAllparkings,
     getPendingDriverApprovals,
     approveDriver,
     rejectDriver

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StatCard } from '../../StatCard';
 import { Car, Clock, Ticket, DollarSign, Search, Phone, MapPin, Plus } from 'lucide-react';
 import { api } from '../../../services/api';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
 
 export function ManagerDashboard() {
   const navigate = useNavigate();
@@ -16,7 +18,7 @@ export function ManagerDashboard() {
   });
   const [assignments, setAssignments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const filters = ['All', 'Parked', 'Retrieving', 'Retrieved'];
+  const filters = ['All', 'Pending Assignment', 'Assigned', 'In Progress', 'Retrieved'];
 
   useEffect(() => {
     fetchDashboardData();
@@ -39,7 +41,7 @@ export function ManagerDashboard() {
 
   const fetchAssignments = async () => {
     try {
-      const response = await api.manager.getParkingAssignments(
+      const response = await api.manager.getparkingAssignments(
         selectedFilter === 'All' ? null : selectedFilter,
         searchQuery || null
       );
@@ -203,9 +205,11 @@ export function ManagerDashboard() {
                     <p className="text-gray-600 mt-1">{assignment.vehicleNumber}</p>
                   </div>
                   <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                    assignment.status === 'Parked' 
+                    assignment.status === 'In Progress' 
                       ? 'bg-green-50 text-green-700 border border-green-200' 
-                      : assignment.status === 'Retrieving'
+                      : assignment.status === 'Assigned'
+                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                      : assignment.status === 'Pending Assignment'
                       ? 'bg-orange-50 text-orange-700 border border-orange-200'
                       : 'bg-gray-50 text-gray-700 border border-gray-200'
                   }`}>
@@ -228,19 +232,14 @@ export function ManagerDashboard() {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600 font-medium">Valet Assigned</span>
-                    <div className="flex items-center gap-3">
-                      <span className="text-gray-900 font-medium">{assignment.assignedValet}</span>
-                      {assignment.valetId && (
-                        <span className="text-xs text-gray-500">ID: {assignment.valetId.slice(0, 4).toUpperCase()}</span>
-                      )}
-                      <button 
-                        onClick={() => handleCallValet(assignment.assignedValet)}
-                        className="p-2 hover:bg-indigo-50 rounded-lg transition-colors"
-                      >
-                        <Phone className="w-4 h-4 text-indigo-600" />
-                      </button>
-                    </div>
+                    <span className="text-gray-600 font-medium">Task Type</span>
+                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      assignment.taskType === 'Retrieve' 
+                        ? 'bg-red-50 text-red-700' 
+                        : 'bg-green-50 text-green-700'
+                    }`}>
+                      {assignment.taskType === 'Retrieve' ? 'Vehicle Retrieval' : 'Vehicle parking'}
+                    </span>
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -280,7 +279,7 @@ export function ManagerDashboard() {
                   onClick={() => handleReassignValet(assignment.id)}
                   className="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition-all font-medium"
                 >
-                  Reassign Valet
+                  {assignment.assignedValet === 'Unassigned' ? 'Assign Driver' : 'Reassign Driver'}
                 </button>
               </div>
             ))

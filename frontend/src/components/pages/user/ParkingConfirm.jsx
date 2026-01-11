@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { ArrowLeft, Car, MapPin, Smartphone, CreditCard, Banknote, Building2 } from 'lucide-react'
 import { api } from '../../../services/api'
 
-export function ConfirmParking() {
+export function Confirmparking() {
   const navigate = useNavigate()
   const location = useLocation()
   const [selectedPayment, setSelectedPayment] = useState('upi')
@@ -64,7 +64,7 @@ export function ConfirmParking() {
     navigate('/vehicle-selection', { state: { scannedData } })
   }
 
-  const handleConfirmParking = async () => {
+  const handleConfirmparking = async () => {
     setError('')
     setLoading(true)
 
@@ -106,7 +106,7 @@ export function ConfirmParking() {
               <ArrowLeft className="w-6 h-6" />
             </button>
             <div>
-              <h1 className="text-3xl lg:text-4xl font-bold">Confirm Parking</h1>
+              <h1 className="text-3xl lg:text-4xl font-bold">Confirm parking</h1>
               <p className="text-white/90 mt-2">Review your details and confirm parking</p>
             </div>
           </div>
@@ -149,7 +149,7 @@ export function ConfirmParking() {
                 <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
                   <MapPin className="w-6 h-6 text-gray-600" />
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-900">Parking Location</h2>
+                <h2 className="text-2xl font-semibold text-gray-900">parking Location</h2>
               </div>
 
               <div>
@@ -229,11 +229,11 @@ export function ConfirmParking() {
               )}
 
               <button
-                onClick={handleConfirmParking}
+                onClick={handleConfirmparking}
                 disabled={loading}
                 className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:shadow-lg transition-all font-medium text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Processing...' : 'Park My Car'}
+                {loading ? 'Processing...' : 'park My Car'}
               </button>
             </div>
           </div>

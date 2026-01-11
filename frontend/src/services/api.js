@@ -105,6 +105,12 @@ export const api = {
                 body: JSON.stringify(parkingData)
             })
         },
+        async requestRetrieval(parkingId) {
+            return api.request('/parking/request-retrieval', {
+                method: 'POST',
+                body: JSON.stringify({ parkingId })
+            })
+        },
         async end(parkingId) {
             return api.request(`/parking/end?parkingId=${parkingId}`, {
                 method: 'PATCH'
@@ -128,7 +134,7 @@ export const api = {
         async getAllUsers() {
             return api.request('/admin/users')
         },
-        async getAllParkings() {
+        async getAllparkings() {
             return api.request('/admin/parkings')
         },
         async getPendingDriverApprovals() {
@@ -152,7 +158,7 @@ export const api = {
         async getDashboardStats() {
             return api.request('/manager/dashboard')
         },
-        async getParkingAssignments(status, search) {
+        async getparkingAssignments(status, search) {
             const params = new URLSearchParams()
             if (status) params.append('status', status)
             if (search) params.append('search', search)

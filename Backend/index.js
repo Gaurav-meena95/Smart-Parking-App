@@ -10,13 +10,13 @@ const port = process.env.PORT || 3000
 const authenticationRoutes = require('./module/Auth/routes')
 const vehicleRoutes = require('./module/User/vehiclesMangament/routes')
 const usersProfile = require('./module/User/Profle/routes')
-const parkingRoutes = require('./module/Parking/routes')
+const parkingRoutes = require('./module/parking/routes')
 const adminRoutes = require('./module/Admin/routes')
 const managerRoutes = require('./module/Manager/routes')
 const driverRoutes = require('./module/Driver/routes')
 
 app.get('/', (req, res) => {
-    return res.status(200).json({ message: 'Smart Parking API is running' })
+    return res.status(200).json({ message: 'Smart parking API is running' })
 })
 
 app.use('/api/auth/', authenticationRoutes)

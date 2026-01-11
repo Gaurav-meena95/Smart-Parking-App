@@ -13,7 +13,7 @@ const getDashboardStats = async (req, res) => {
         const tomorrow = new Date(today)
         tomorrow.setDate(tomorrow.getDate() + 1)
 
-        const todayParkings = await prisma.parking.findMany({
+        const todayparkings = await prisma.parking.findMany({
             where: {
                 entryTime: {
                     gte: today,
@@ -22,7 +22,7 @@ const getDashboardStats = async (req, res) => {
             }
         })
 
-        const activeParkings = await prisma.parking.findMany({
+        const activeparkings = await prisma.parking.findMany({
             where: {
                 status: 'active'
             },
@@ -32,18 +32,18 @@ const getDashboardStats = async (req, res) => {
             }
         })
 
-        const retrievingParkings = await prisma.parking.findMany({
+        const retrievingparkings = await prisma.parking.findMany({
             where: {
                 status: 'active',
                 assignedDriverId: null
             }
         })
 
-        const todayRevenue = todayParkings.reduce((sum, p) => sum + (p.totalAmount || 0), 0)
+        const todayRevenue = todayparkings.reduce((sum, p) => sum + (p.totalAmount || 0), 0)
 
-        const activeCars = activeParkings.length
-        const retrieving = retrievingParkings.length
-        const totalToday = todayParkings.length
+        const activeCars = activeparkings.length
+        const retrieving = retrievingparkings.length
+        const totalToday = todayparkings.length
         const revenue = todayRevenue
 
         return res.status(200).json({
@@ -58,7 +58,7 @@ const getDashboardStats = async (req, res) => {
     }
 }
 
-const getParkingAssignments = async (req, res) => {
+const getparkingAssignments = async (req, res) => {
     try {
         if (!req.user || req.user.role !== 'manager') {
             return res.status(403).json({ message: 'Manager access required' })
@@ -69,13 +69,16 @@ const getParkingAssignments = async (req, res) => {
         let whereClause = {}
         
         if (status && status !== 'All') {
-            if (status === 'Parked') {
-                whereClause.status = 'active'
+            if (status === 'parked') {
+                whereClause.status = 'in_progress'
             } else if (status === 'Retrieving') {
-                whereClause.status = 'active'
+                whereClause.status = 'pending'
+                whereClause.taskType = 'retrive'
             } else if (status === 'Retrieved') {
                 whereClause.status = 'completed'
             }
+        } else {
+            whereClause.status = { in: ['pending', 'in_progress'] }
         }
 
         const parkings = await prisma.parking.findMany({
@@ -95,18 +98,18 @@ const getParkingAssignments = async (req, res) => {
             }
         })
 
-        let filteredParkings = parkings
+        let filteredparkings = parkings
 
         if (search) {
             const searchLower = search.toLowerCase()
-            filteredParkings = parkings.filter(p => 
+            filteredparkings = parkings.filter(p => 
                 p.vehicle.vehicleNumber.toLowerCase().includes(searchLower) ||
                 p.user.name.toLowerCase().includes(searchLower) ||
                 (p.assignedDriver && p.assignedDriver.name.toLowerCase().includes(searchLower))
             )
         }
 
-        const assignments = filteredParkings.map(p => {
+        const assignments = filteredparkings.map(p => {
             const entryTime = new Date(p.entryTime)
             const now = new Date()
             const durationMs = now - entryTime
@@ -114,11 +117,13 @@ const getParkingAssignments = async (req, res) => {
             const minutes = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60))
             const duration = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
 
-            let status = 'Parked'
+            let status = 'Pending Assignment'
             if (p.status === 'completed') {
                 status = 'Retrieved'
-            } else if (!p.assignedDriverId) {
-                status = 'Retrieving'
+            } else if (p.status === 'in_progress') {
+                status = 'In Progress'
+            } else if (p.status === 'pending' && p.assignedDriverId) {
+                status = 'Assigned'
             }
 
             return {
@@ -132,6 +137,7 @@ const getParkingAssignments = async (req, res) => {
                 valetId: p.assignedDriver ? p.assignedDriver.id : null,
                 location: p.location,
                 address: p.address,
+                taskType: p.taskType || 'park',
                 entryTime: entryTime.toLocaleString('en-IN', { 
                     day: 'numeric', 
                     month: 'short', 
@@ -221,7 +227,7 @@ const reassignValet = async (req, res) => {
         })
 
         if (!parking) {
-            return res.status(404).json({ message: 'Parking not found' })
+            return res.status(404).json({ message: 'parking not found' })
         }
 
         const driver = await prisma.user.findUnique({
@@ -232,10 +238,11 @@ const reassignValet = async (req, res) => {
             return res.status(404).json({ message: 'Driver not found' })
         }
 
-        const updatedParking = await prisma.parking.update({
+        const updatedparking = await prisma.parking.update({
             where: { id: parkingId },
             data: {
-                assignedDriverId: driverId
+                assignedDriverId: driverId,
+                assignedAt: new Date()
             },
             include: {
                 assignedDriver: {
@@ -248,8 +255,8 @@ const reassignValet = async (req, res) => {
         })
 
         return res.status(200).json({
-            message: 'Valet reassigned successfully',
-            parking: updatedParking
+            message: 'Driver assigned successfully',
+            parking: updatedparking
         })
     } catch (error) {
         console.log(error)
@@ -285,7 +292,7 @@ const getAvailableDrivers = async (req, res) => {
 
 module.exports = {
     getDashboardStats,
-    getParkingAssignments,
+    getparkingAssignments,
     addDriver,
     reassignValet,
     getAvailableDrivers

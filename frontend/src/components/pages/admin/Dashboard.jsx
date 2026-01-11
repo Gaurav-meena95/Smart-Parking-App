@@ -307,8 +307,8 @@ export function AdminDashboard() {
                 />
                 <StatCard
                   icon={Car}
-                  label="Active Parking"
-                  value={stats.overall.activeParking}
+                  label="Active parking"
+                  value={stats.overall.activeparking}
                   iconColor="text-purple-600"
                   iconBg="bg-purple-50"
                 />

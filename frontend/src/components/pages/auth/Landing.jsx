@@ -16,7 +16,7 @@ export function Landing() {
   const features = [
     {
       icon: Car,
-      title: 'Smart Parking',
+      title: 'Smart parking',
       description: 'AI-powered parking solutions that optimize space utilization and reduce wait times.'
     },
     {
@@ -46,8 +46,8 @@ export function Landing() {
                 <Car className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
               </div>
               <div>
-                <h1 className="text-lg lg:text-2xl font-bold text-gray-900">Smart Parking</h1>
-                <p className="text-sm text-gray-600 hidden lg:block">Intelligent Parking Solutions</p>
+                <h1 className="text-lg lg:text-2xl font-bold text-gray-900">Smart parking</h1>
+                <p className="text-sm text-gray-600 hidden lg:block">Intelligent parking Solutions</p>
               </div>
             </div>
 
@@ -87,7 +87,7 @@ export function Landing() {
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                  Smart Parking
+                  Smart parking
                   <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent block">
                     Made Simple
                   </span>
@@ -138,7 +138,7 @@ export function Landing() {
                         <Car className="w-4 h-4 text-white" />
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-900">Parking Found</p>
+                        <p className="font-semibold text-gray-900">parking Found</p>
                         <p className="text-sm text-gray-600">Slot A-23</p>
                       </div>
                     </div>
@@ -186,7 +186,7 @@ export function Landing() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Why Choose Smart Parking?
+              Why Choose Smart parking?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our comprehensive parking solution combines cutting-edge technology with exceptional service to deliver an unmatched experience.
@@ -213,10 +213,10 @@ export function Landing() {
       <section className="py-20 lg:py-32 bg-gradient-to-r from-indigo-600 to-purple-900">
         <div className="max-w-4xl mx-auto text-center px-6 lg:px-8">
           <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6">
-            Ready to Transform Your Parking Experience?
+            Ready to Transform Your parking Experience?
           </h2>
           <p className="text-xl text-indigo-100 mb-8">
-            Join Smart Parking today and never worry about finding parking again.
+            Join Smart parking today and never worry about finding parking again.
           </p>
           <button 
             onClick={handleGetStarted}
@@ -237,8 +237,8 @@ export function Landing() {
                   <Car className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">Smart Parking</h3>
-                  <p className="text-gray-400">Intelligent Parking Solutions</p>
+                  <h3 className="text-xl font-bold">Smart parking</h3>
+                  <p className="text-gray-400">Intelligent parking Solutions</p>
                 </div>
               </div>
               <p className="text-gray-400 leading-relaxed mb-6">
@@ -266,7 +266,7 @@ export function Landing() {
           </div>
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Smart Parking. All rights reserved.</p>
+            <p>&copy; 2024 Smart parking. All rights reserved.</p>
           </div>
         </div>
       </footer>

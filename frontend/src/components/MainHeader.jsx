@@ -8,7 +8,7 @@ export function WebsiteHeader({ currentRole }) {
   const navItems = [
     { path: '/home', label: 'Home' },
     { path: '/history', label: 'History' },
-    { path: '/ticket', label: 'Parking' },
+    { path: '/ticket', label: 'parking' },
     { path: '/settings', label: 'Settings' },
   ];
 
@@ -40,8 +40,8 @@ export function WebsiteHeader({ currentRole }) {
               <Car className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Smart Parking</h1>
-              <p className="text-sm text-gray-600 hidden lg:block">Intelligent Parking Solutions</p>
+              <h1 className="text-xl lg:text-2xl font-bold text-gray-900">Smart parking</h1>
+              <p className="text-sm text-gray-600 hidden lg:block">Intelligent parking Solutions</p>
             </div>
           </div>
 

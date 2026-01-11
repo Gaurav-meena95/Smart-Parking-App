@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "task_types" AS ENUM ('PARK', 'RETRIEVE');
+CREATE TYPE "task_types" AS ENUM ('park', 'RETRIEVE');
 
 -- AlterEnum
 -- This migration adds more than one value to an enum.
@@ -15,4 +15,4 @@ ALTER TYPE "parking_status" ADD VALUE 'in_progress';
 -- AlterTable
 ALTER TABLE "parkings" ADD COLUMN     "assignedAt" TIMESTAMP(3),
 ADD COLUMN     "parkingSlot" TEXT,
-ADD COLUMN     "taskType" "task_types" NOT NULL DEFAULT 'PARK';
+ADD COLUMN     "taskType" "task_types" NOT NULL DEFAULT 'park';

@@ -5,7 +5,7 @@ import { api } from '../../../services/api'
 
 export function UserHistory() {
   const navigate = useNavigate()
-  const [parkings, setParkings] = useState([])
+  const [parkings, setparkings] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export function UserHistory() {
   const fetchHistory = async () => {
     try {
       const data = await api.parking.getHistory()
-      setParkings(data.data || [])
+      setparkings(data.data || [])
     } catch (error) {
       console.error('Error fetching history:', error)
     } finally {
@@ -40,7 +40,7 @@ export function UserHistory() {
       <div className="max-w-4xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
         <div className="bg-linear-to-r from-indigo-600  to-purple-800  mb-8 lg:mb-12 rounded-2xl">
           <div className='p-5 '>
-            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">Parking History</h1>
+            <h1 className="text-3xl lg:text-4xl font-bold text-white mb-2">parking History</h1>
             <p className="text-lg text-gray-300/70">{parkings.length} total bookings</p>
           </div>
         </div>

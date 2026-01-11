@@ -1,6 +1,37 @@
-# Smart parking System
+# Smart Parking System
 
 A full-stack parking management system with separate interfaces for users, drivers, managers, and admins.
+
+## Authentication Flow
+
+### Login Process
+1. User enters credentials (email, password, role) on the login page
+2. Frontend sends login request to backend API
+3. Backend validates credentials and returns JWT tokens
+4. Frontend stores tokens in localStorage:
+   - `token`: Main authentication token
+   - `refreshToken`: Token for refreshing expired sessions
+5. User is redirected to their role-specific dashboard
+
+### Dashboard Access
+- **Admin Dashboard**: System overview, driver approvals, analytics
+- **Manager Dashboard**: Valet assignments, driver management, operations
+- **Driver Console**: Assignment management, task execution
+- **User Dashboard**: Parking management, vehicle registration
+
+### Logout Functionality
+- Logout button available on all dashboards (top-right corner)
+- Clicking logout button:
+  1. Clears authentication tokens from localStorage
+  2. Resets authentication state in React context
+  3. Redirects user to login page
+- Automatic logout on token expiration or API errors
+
+### LocalStorage Management
+- **On Login**: Saves `token` and `refreshToken` to localStorage
+- **On Logout**: Removes both tokens from localStorage
+- **On Error**: Clears tokens and resets authentication state
+- **Token Refresh**: Automatically updates tokens in localStorage when refreshed
 
 ## Deployment Instructions
 
@@ -64,12 +95,14 @@ A full-stack parking management system with separate interfaces for users, drive
 
 ## Features
 
-- User parking management
-- Driver assignment system
-- Manager dashboard
-- Admin controls
-- Real-time updates
-- phone-responsive design
+- **User Management**: Complete parking lifecycle management
+- **Driver Assignment System**: Automated valet task distribution
+- **Manager Dashboard**: Operations oversight and driver management
+- **Admin Controls**: System administration and approvals
+- **Authentication & Security**: JWT-based authentication with localStorage persistence
+- **Logout Functionality**: Secure session termination across all dashboards
+- **Real-time Updates**: Live status updates and notifications
+- **Mobile-Responsive Design**: Optimized for all device sizes
 
 ## Tech Stack
 

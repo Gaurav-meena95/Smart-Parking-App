@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { StatCard } from '../../StatCard';
-import { Car, Clock, Ticket, DollarSign, Search, Phone, MapPin, Plus } from 'lucide-react';
+import { Car, Clock, Ticket, DollarSign, Search, Phone, MapPin, Plus, LogOut } from 'lucide-react';
 import { api } from '../../../services/api';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api'
+import { useAuth } from '../../../context/AuthContext';
 
 export function ManagerDashboard() {
   const navigate = useNavigate();
+  const { logout } = useAuth()
   const [selectedFilter, setSelectedFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [stats, setStats] = useState({
@@ -94,6 +94,11 @@ export function ManagerDashboard() {
     setSearchQuery(e.target.value);
   };
 
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -105,21 +110,30 @@ export function ManagerDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-indigo-600 text-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-8 lg:py-12">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold mb-2">Manager Dashboard</h1>
-              <p className="text-xl text-white/90">Add Driver</p>
-              <p className="text-lg text-white/80 mt-1">Manage valet assignments and parking operations</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Manager Dashboard</h1>
+              <p className="text-lg sm:text-xl text-white/90">Add Driver</p>
+              <p className="text-sm sm:text-base lg:text-lg text-white/80 mt-1">Manage valet assignments and parking operations</p>
             </div>
             
-            <button
-              onClick={handleAddDriver}
-              className="bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-xl flex items-center gap-2 transition-all font-medium"
-            >
-              <Plus className="w-5 h-5" />
-              Add New Driver
-            </button>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 self-end lg:self-auto">
+              <button
+                onClick={handleAddDriver}
+                className="bg-white/20 hover:bg-white/30 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl flex items-center gap-2 transition-all font-medium cursor-pointer text-sm sm:text-base"
+              >
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                Add New Driver
+              </button>
+              <button
+                onClick={handleLogout}
+                className="p-2 sm:p-3 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                title="Logout"
+              >
+                <LogOut className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -174,7 +188,7 @@ export function ManagerDashboard() {
                 <button
                   key={filter}
                   onClick={() => setSelectedFilter(filter)}
-                  className={`px-6 py-3 rounded-xl text-sm font-medium transition-all ${
+                  className={`px-6 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer ${
                     selectedFilter === filter
                       ? 'bg-indigo-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -224,7 +238,7 @@ export function ManagerDashboard() {
                       <span className="text-gray-900 font-medium">{assignment.customerName}</span>
                       <button 
                         onClick={() => handleCallCustomer(assignment.customerPhone)}
-                        className="p-2 hover:bg-indigo-50 rounded-lg transition-colors"
+                        className="p-2 hover:bg-indigo-50 rounded-lg transition-colors cursor-pointer"
                       >
                         <Phone className="w-4 h-4 text-indigo-600" />
                       </button>
@@ -277,7 +291,7 @@ export function ManagerDashboard() {
 
                 <button 
                   onClick={() => handleReassignValet(assignment.id)}
-                  className="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition-all font-medium"
+                  className="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 transition-all font-medium cursor-pointer"
                 >
                   {assignment.assignedValet === 'Unassigned' ? 'Assign Driver' : 'Reassign Driver'}
                 </button>

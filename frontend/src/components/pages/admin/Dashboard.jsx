@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { StatCard } from '../../../components/StatCard'
-import { Ticket, DollarSign, Car, ChevronDown, TrendingUp, BarChart3, Users, Settings, CheckCircle, XCircle, MapPin } from 'lucide-react'
+import { Ticket, DollarSign, Car, ChevronDown, TrendingUp, BarChart3, Users, Settings, CheckCircle, XCircle, MapPin, LogOut } from 'lucide-react'
 import { api } from '../../../services/api'
+import { useAuth } from '../../../context/AuthContext'
 
 export function AdminDashboard() {
+  const { logout } = useAuth()
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('overview')
   const [stats, setStats] = useState(null)
   const [pendingDrivers, setPendingDrivers] = useState([])
@@ -102,6 +106,11 @@ export function AdminDashboard() {
     alert('Data Export - Coming Soon!')
   }
 
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -121,11 +130,22 @@ export function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-8 overflow-y-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="bg-indigo-600 text-white px-6 sm:px-8 py-8 sm:py-12 rounded-lg mb-6 sm:mb-8">
           <div className="max-w-4xl">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8">Super Admin</h1>
-            <p className="text-lg sm:text-xl text-white/90 mb-6">System overview and approvals</p>
+            <div className="flex justify-between  mb-6 ">
+              <div className="">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Super Admin</h1>
+                <p className="text-lg sm:text-xl text-white/90 mt-2">System overview and approvals</p>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="self-end sm:self-auto p-2 sm:p-3 hover:bg-white/10 rounded-lg transition-colors cursor-pointer flex items-center justify-center"
+                title="Logout"
+              >
+                <LogOut className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+            </div>
             
             <div className="flex gap-4 mb-6">
               <button
@@ -140,7 +160,7 @@ export function AdminDashboard() {
               </button>
               <button
                 onClick={() => setActiveTab('approvals')}
-                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 cursor-pointer rounded-lg font-medium transition-colors ${
                   activeTab === 'approvals'
                     ? 'bg-white text-indigo-600'
                     : 'bg-white/20 text-white hover:bg-white/30'
@@ -155,7 +175,7 @@ export function AdminDashboard() {
                 <label className="block text-sm text-white/90 mb-2">Select Site</label>
                 <button 
                   onClick={() => setShowSiteDropdown(!showSiteDropdown)}
-                  className="w-full bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between hover:bg-white/30 transition-all"
+                  className="w-full bg-white/20 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between hover:bg-white/30 transition-all cursor-pointer"
                 >
                   <span className="text-base sm:text-lg">{selectedSite?.name || stats.sites[0]?.name || 'Select Site'}</span>
                   <ChevronDown className={`w-5 h-5 sm:w-6 sm:h-6 transition-transform ${showSiteDropdown ? 'rotate-180' : ''}`} />
@@ -167,7 +187,7 @@ export function AdminDashboard() {
                       <button
                         key={site.id}
                         onClick={() => handleSiteSelect(site)}
-                        className={`w-full px-4 sm:px-6 py-3 sm:py-4 text-left hover:bg-gray-50 transition-colors ${
+                        className={`w-full px-4 sm:px-6 py-3 sm:py-4 text-left hover:bg-gray-50 transition-colors cursor-pointer ${
                           selectedSite?.id === site.id ? 'bg-indigo-50 text-indigo-600' : 'text-gray-900'
                         }`}
                       >
@@ -190,7 +210,7 @@ export function AdminDashboard() {
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-900">Today's Performance</h2>
                 <button 
                   onClick={handleViewAnalytics}
-                  className="text-indigo-600 hover:text-indigo-800 transition-colors font-medium text-sm sm:text-base"
+                  className="text-indigo-600 hover:text-indigo-800 transition-colors font-medium text-sm sm:text-base cursor-pointer"
                 >
                   View Details
                 </button>
@@ -226,7 +246,7 @@ export function AdminDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <button
                   onClick={handleViewAnalytics}
-                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left"
+                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -241,7 +261,7 @@ export function AdminDashboard() {
 
                 <button
                   onClick={handleManageUsers}
-                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left"
+                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -256,7 +276,7 @@ export function AdminDashboard() {
 
                 <button
                   onClick={handleSystemSettings}
-                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left"
+                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -271,7 +291,7 @@ export function AdminDashboard() {
 
                 <button
                   onClick={handleExportData}
-                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left"
+                  className="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 sm:p-6 transition-all text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-50 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -361,14 +381,14 @@ export function AdminDashboard() {
                       <div className="flex gap-2 ml-4">
                         <button
                           onClick={() => handleApproveDriver(driver.id)}
-                          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2"
+                          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center gap-2 cursor-pointer"
                         >
                           <CheckCircle className="w-4 h-4" />
                           Approve
                         </button>
                         <button
                           onClick={() => handleRejectDriver(driver.id)}
-                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2"
+                          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center gap-2 cursor-pointer"
                         >
                           <XCircle className="w-4 h-4" />
                           Reject

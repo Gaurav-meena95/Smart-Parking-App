@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, CheckCircle, MapPin, Clock, X, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Bell, CheckCircle, MapPin, Clock, X, Loader2, LogOut } from 'lucide-react';
 import { api } from '../../../services/api';
+import { useAuth } from '../../../context/AuthContext';
 
 export function DriverConsole() {
+  const { logout } = useAuth()
+  const navigate = useNavigate()
   const [assignments, setAssignments] = useState([]);
   const [currentTask, setCurrentTask] = useState(null);
   const [stats, setStats] = useState({ today: { parked: 0, retrieved: 0 }, newAssignments: 0 });
@@ -126,6 +130,11 @@ export function DriverConsole() {
     alert('Notifications - Coming Soon!');
   };
 
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
   const formatTime = (dateString) => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
@@ -156,23 +165,33 @@ export function DriverConsole() {
   return (
     <div className="min-h-screen bg-gray-50 pb-8">
       <div className="max-w-6xl mx-auto px-6 lg:px-8 py-8">
-        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white px-8 py-12 rounded-3xl mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl lg:text-4xl font-bold">Driver Console</h1>
-              <p className="text-white/90 mt-2 text-lg">Welcome back, {driverName}</p>
+        <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white px-4 sm:px-8 py-8 sm:py-12 rounded-3xl mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex-1">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Driver Console</h1>
+              <p className="text-white/90 mt-2 text-base sm:text-lg">Welcome back, {driverName}</p>
             </div>
-            <button
-              onClick={handleNotifications}
-              className="p-3 hover:bg-white/10 rounded-lg transition-colors relative"
-            >
-              <Bell className="w-7 h-7" />
-              {stats.newAssignments > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">
-                  {stats.newAssignments}
-                </span>
-              )}
-            </button>
+            <div className="flex items-center gap-2 sm:gap-4 self-end sm:self-auto">
+              <button
+                onClick={handleNotifications}
+                className="p-2 sm:p-3 hover:bg-white/10 rounded-lg transition-colors relative cursor-pointer"
+                title="Notifications"
+              >
+                <Bell className="w-6 h-6 sm:w-7 sm:h-7" />
+                {stats.newAssignments > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center font-bold">
+                    {stats.newAssignments}
+                  </span>
+                )}
+              </button>
+              <button
+                onClick={handleLogout}
+                className="p-2 sm:p-3 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                title="Logout"
+              >
+                <LogOut className="w-6 h-6 sm:w-7 sm:h-7" />
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4 mt-8">
@@ -260,14 +279,14 @@ export function DriverConsole() {
                   <div className="flex gap-3">
                     <button
                       onClick={() => handleRejectAssignment(assignment)}
-                      className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-200 transition-all font-medium"
+                      className="flex-1 bg-gray-100 text-gray-700 py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-200 transition-all font-medium cursor-pointer"
                     >
                       <X className="w-5 h-5" />
                       Reject
                     </button>
                     <button
                       onClick={() => handleAcceptAssignment(assignment)}
-                      className="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white py-3 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all font-medium"
+                      className="flex-1 bg-gradient-to-r from-green-600 to-green-500 text-white py-3 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg transition-all font-medium cursor-pointer"
                     >
                       <CheckCircle className="w-5 h-5" />
                       Accept Assignment
@@ -296,7 +315,7 @@ export function DriverConsole() {
 
                     <button
                       onClick={handleCompleteTask}
-                      className="w-full bg-gradient-to-r from-green-600 to-green-500 text-white py-4 rounded-xl font-medium hover:shadow-lg transition-all"
+                      className="w-full bg-gradient-to-r from-green-600 to-green-500 text-white py-4 rounded-xl font-medium hover:shadow-lg transition-all cursor-pointer"
                     >
                       Complete Task
                     </button>
@@ -348,7 +367,7 @@ export function DriverConsole() {
 
                     <button
                       onClick={handleStartTask}
-                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-medium hover:shadow-lg transition-all"
+                      className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl font-medium hover:shadow-lg transition-all cursor-pointer"
                     >
                       {currentTask.taskType === 'park' ? 'Start parking' : 'Start Retrieval'}
                     </button>
